@@ -9,6 +9,7 @@ This is a fork of the official React Starter Kit branch with extra boilerplate s
 - The user `name` is replaced with `username` and has character constraints for safety. The username must be between 3 - 20 characters long and only contain letters, numbers, underscores, and hyphens.
 - Users can log in via email or username.
 - More consistent wording for UI labels and messages.
+- Improved responsiveness for various components.
 
 ## More Information
 
