@@ -17,12 +17,25 @@ class AuthenticationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_users_can_authenticate_using_the_login_screen()
+    public function test_users_can_authenticate_using_email()
     {
         $user = User::factory()->create();
 
         $response = $this->post(route('login.store'), [
-            'email' => $user->email,
+            'login' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('dashboard', absolute: false));
+    }
+
+    public function test_users_can_authenticate_using_username()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post(route('login.store'), [
+            'login' => $user->username,
             'password' => 'password',
         ]);
 
@@ -35,7 +48,7 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $this->post(route('login.store'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'wrong-password',
         ]);
 
@@ -58,22 +71,22 @@ class AuthenticationTest extends TestCase
 
         for ($i = 0; $i < 5; $i++) {
             $this->post(route('login.store'), [
-                'email' => $user->email,
+                'login' => $user->email,
                 'password' => 'wrong-password',
             ])->assertStatus(302)->assertSessionHasErrors([
-                'email' => 'These credentials do not match our records.',
+                'login' => 'These credentials do not match our records.',
             ]);
         }
 
         $response = $this->post(route('login.store'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'wrong-password',
         ]);
 
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors('login');
 
         $errors = session('errors');
 
-        $this->assertStringContainsString('Too many login attempts', $errors->first('email'));
+        $this->assertStringContainsString('Too many login attempts', $errors->first('login'));
     }
 }
