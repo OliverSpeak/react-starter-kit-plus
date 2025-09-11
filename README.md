@@ -11,6 +11,9 @@ This is a fork of the official React Starter Kit branch with extra boilerplate s
 - More consistent wording for UI labels and messages.
 - Improved responsiveness for some shadcn/ui components.
 - Disabled shadcn/ui sidebar shortcut.
+- Conditional password rules.
+    - When the environment is `production`, the app will enforce additional password rules you may define, such as mixed-case and numbers.
+    - Conditional default rules can be specified in `AppServiceProvider`.
 
 ## More Information
 
