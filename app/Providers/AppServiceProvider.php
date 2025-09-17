@@ -26,11 +26,9 @@ class AppServiceProvider extends ServiceProvider
          * This is setup so that rules may be relaxed in non-production environments.
          */
         Password::defaults(function () {
-            $rule = Password::min(8);
-
             return $this->app->environment('production')
-                ? $rule // ->uncompromised()
-                : $rule;
+                ? Password::min(8) // ->letters()->numbers()
+                : Password::min(0);
         });
     }
 }
