@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -32,25 +33,28 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Validate the request's credentials and return the user without logging them in.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function validateCredentials(): User
     {
         $this->ensureIsNotRateLimited();
 
         $login = $this->string('login')->value();
-        $password = $this->string('password')->value();
+        $password = $this->only('password');
 
         // Determine if login is email or username
         $isEmail = filter_var($login, FILTER_VALIDATE_EMAIL);
 
         $credentials = $isEmail
-            ? ['email' => $login, 'password' => $password]
-            : ['username' => $login, 'password' => $password];
+            ? array_merge(['email' => $login], $password)
+            : array_merge(['username' => $login], $password);
 
-        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
+        /** @var User|null $user */
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+
+        if (! $user || ! Auth::getProvider()->validateCredentials($user, $this->only('password'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -59,6 +63,8 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        return $user;
     }
 
     /**
@@ -85,7 +91,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Get the rate-limiting throttle key for the request.
      */
     public function throttleKey(): string
     {
