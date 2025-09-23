@@ -65,7 +65,7 @@ class AuthenticationTest extends TestCase
         ])->save();
 
         $response = $this->post(route('login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'password',
         ]);
 
