@@ -21,7 +21,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_authenticate_using_email()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->withoutTwoFactor()->create();
 
         $response = $this->post(route('login.store'), [
             'login' => $user->email,
