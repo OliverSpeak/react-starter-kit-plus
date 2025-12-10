@@ -27,20 +27,10 @@ export default defineConfig(({ command }) => ({
     server:
         command === 'serve'
             ? {
-                  // Default to all origins. This is necessary if using Orbstack.
-                  host: '0.0.0.0',
-                  cors: {
-                      origin: [
-                          'http://localhost',
-                          'http://localhost:80',
-                          'http://127.0.0.1',
-                          'http://127.0.0.1:80',
-                          'http://laravel.test.react-starter-kit-plus.orb.local',
-                          'https://laravel.test.react-starter-kit-plus.orb.local',
-                      ],
-                      methods: ['GET', 'HEAD'],
-                      allowedHeaders: ['Content-Type'],
-                      credentials: true,
+                  host: '0.0.0.0', // Bind to all interfaces (for Docker)
+                  hmr: {
+                    // Specify the hostname. This is necessary for platforms that use domain names per container, such as Orbstack.
+                      host: 'laravel.test.react-starter-kit-plus.orb.local',
                   },
               }
             : undefined,
