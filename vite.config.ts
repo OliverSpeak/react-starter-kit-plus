@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { defineConfig } from 'vite';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
@@ -24,4 +24,14 @@ export default defineConfig({
     esbuild: {
         jsx: 'automatic',
     },
-});
+    server:
+        command === 'serve'
+            ? {
+                  host: '0.0.0.0', // Bind to all interfaces (for Docker)
+                  hmr: {
+                    // Specify the hostname. This is necessary for platforms that use domain names per container, such as Orbstack.
+                      host: 'laravel.test.react-starter-kit-plus.orb.local',
+                  },
+              }
+            : undefined,
+}));
