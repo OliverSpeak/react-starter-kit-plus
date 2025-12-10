@@ -2,12 +2,16 @@
 
 ## Introduction
 
-This is a fork of the [React Starter Kit](https://github.com/laravel/react-starter-kit/) with added opinionated changes that streamline development for new projects while remaining additive to keep upstream merges and rebases easy.
+This is a fork of Laravel's [React Starter Kit](https://github.com/laravel/react-starter-kit/) that makes development more strict and opinionated, while maintaining changes from upstream. Commits made to this fork aim to minimise refactoring and are generally additive. Various minor features may also be added here.
 
 ## Summary of changes
 
-- Configured rector based on [nunomaduro/laravel-starter-kit](https://github.com/nunomaduro/laravel-starter-kit/)
-- More lenient origin policy in `vite.config.ts`
+- Setup [essentials](https://github.com/nunomaduro/essentials) and publish `config/essentials.php`
+- Setup `pint.json` with defaults from [essentials](https://github.com/nunomaduro/essentials).
+- Setup rector and configure based on [nunomaduro/laravel-starter-kit](https://github.com/nunomaduro/laravel-starter-kit/)
+- Add hostname configuration support to `vite.config.ts`
+
+Please note that pint and rector have **NOT** been run on this fork. You will need to do that yourself.
 
 ## License
 
