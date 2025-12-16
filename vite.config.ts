@@ -28,8 +28,9 @@ export default defineConfig(({ command }) => ({
         command === 'serve'
             ? {
                   host: '0.0.0.0', // Bind to all interfaces (for Docker)
+                  cors: true,
                   hmr: {
-                    // Specify the hostname. This is necessary for platforms that use domain names per container, such as Orbstack.
+                      // Specify the hostname. This is necessary for platforms that use domain names per container, such as Orbstack.
                       host: 'laravel.test.react-starter-kit-plus.orb.local',
                   },
               }
