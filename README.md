@@ -10,6 +10,7 @@ This is a fork of Laravel's [React Starter Kit](https://github.com/laravel/react
 - Setup `pint.json` with defaults from [essentials](https://github.com/nunomaduro/essentials).
 - Setup rector and configure based on [nunomaduro/laravel-starter-kit](https://github.com/nunomaduro/laravel-starter-kit/)
 - Add hostname configuration support to `vite.config.ts`
+- Apply cursor-pointer class to interactive components that were missing it upstream
 
 Please note that pint and rector have **NOT** been run on this fork. You will need to do that yourself.
 
