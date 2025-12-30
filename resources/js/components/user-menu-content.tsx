@@ -1,3 +1,4 @@
+import { LanguageSwitcher } from '@/components/language-switcher';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -6,11 +7,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { useTranslations } from '@/lib/use-translations';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import { type User } from '@/types';
 import { Link, router } from '@inertiajs/react';
-import { LogOut, Settings } from 'lucide-react';
+import { Globe, LogOut, Settings } from 'lucide-react';
 
 interface UserMenuContentProps {
     user: User;
@@ -18,6 +20,7 @@ interface UserMenuContentProps {
 
 export function UserMenuContent({ user }: UserMenuContentProps) {
     const cleanup = useMobileNavigation();
+    const __ = useTranslations();
 
     const handleLogout = () => {
         cleanup();
@@ -33,6 +36,12 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+                <LanguageSwitcher>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <Globe className="mr-2" />
+                        {__('ui.language.title')}
+                    </DropdownMenuItem>
+                </LanguageSwitcher>
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full"
