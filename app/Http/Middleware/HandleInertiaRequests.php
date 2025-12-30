@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
+use Throwable;
 
-class HandleInertiaRequests extends Middleware
+final class HandleInertiaRequests extends Middleware
 {
     /**
      * The root template that's loaded on the first page visit.
@@ -46,6 +50,42 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'currentLocale' => App::currentLocale(),
+            'supportedLocales' => config('locale.supported', []),
+            'translations' => fn () => $this->loadTranslations(App::currentLocale()),
         ];
+    }
+
+    /**
+     * Load translation files for the given locale.
+     *
+     * @return array<string, mixed>
+     */
+    private function loadTranslations(string $locale): array
+    {
+        $translations = [];
+        $translationPath = lang_path($locale);
+        $translationFiles = config('locale.files', []);
+
+        if (! is_dir($translationPath)) {
+            return $translations;
+        }
+
+        foreach ($translationFiles as $file) {
+            $filePath = "{$translationPath}/{$file}.php";
+
+            if (file_exists($filePath)) {
+                try {
+                    $translations[$file] = require $filePath;
+                } catch (Throwable $e) {
+                    // Log error but continue loading other files
+                    logger()->warning("Failed to load translation file: {$filePath}", [
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+            }
+        }
+
+        return $translations;
     }
 }

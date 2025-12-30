@@ -1,3 +1,5 @@
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { useTranslations } from '@/lib/use-translations';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
@@ -8,7 +10,7 @@ export default function Welcome({
     canRegister?: boolean;
 }) {
     const { auth } = usePage<SharedData>().props;
-
+    const __ = useTranslations();
     return (
         <>
             <Head title="Welcome">
@@ -21,6 +23,11 @@ export default function Welcome({
             <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
                 <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
                     <nav className="flex items-center justify-end gap-4">
+                        <LanguageSwitcher>
+                            <div className="inline-block cursor-pointer rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
+                                {__('ui.language.title')}
+                            </div>
+                        </LanguageSwitcher>
                         {auth.user ? (
                             <Link
                                 href={dashboard()}

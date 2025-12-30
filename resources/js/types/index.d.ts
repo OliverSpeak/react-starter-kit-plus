@@ -1,6 +1,10 @@
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
 
+export type TranslationObject = {
+    [key: string]: string | TranslationObject;
+};
+
 export interface Auth {
     user: User;
 }
@@ -22,11 +26,26 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface LocaleInfo {
+    name: string;
+    native: string;
+}
+
+export interface PageProps {
+    currentLocale?: string;
+    supportedLocales?: Record<string, LocaleInfo>;
+    translations?: TranslationObject;
+    [key: string]: unknown;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
     sidebarOpen: boolean;
+    currentLocale?: string;
+    supportedLocales?: Record<string, LocaleInfo>;
+    translations?: TranslationObject;
     [key: string]: unknown;
 }
 
