@@ -22,7 +22,7 @@ export function AppSidebar() {
 
     const mainNavItems: NavItem[] = [
         {
-            title: __('ui.main.dashboard'),
+            title: __('main.dashboard'),
             href: dashboard(),
             icon: LayoutGrid,
         },
@@ -30,12 +30,12 @@ export function AppSidebar() {
 
     const footerNavItems: NavItem[] = [
         {
-            title: __('ui.footer.repository'),
+            title: __('footer.repository'),
             href: 'https://github.com/laravel/react-starter-kit',
             icon: Folder,
         },
         {
-            title: __('ui.footer.documentation'),
+            title: __('footer.documentation'),
             href: 'https://laravel.com/docs/starter-kits#react',
             icon: BookOpen,
         },

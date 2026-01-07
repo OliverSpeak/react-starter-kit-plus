@@ -64,24 +64,41 @@ final class HandleInertiaRequests extends Middleware
     private function loadTranslations(string $locale): array
     {
         $translations = [];
-        $translationPath = lang_path($locale);
-        $translationFiles = config('locale.files', []);
 
-        if (! is_dir($translationPath)) {
-            return $translations;
-        }
-
-        foreach ($translationFiles as $file) {
-            $filePath = "{$translationPath}/{$file}.php";
-
-            if (file_exists($filePath)) {
+        // Load JSON file for UI translations (if enabled)
+        if (config('locale.json_enabled', true)) {
+            $jsonPath = lang_path("{$locale}.json");
+            if (file_exists($jsonPath)) {
                 try {
-                    $translations[$file] = require $filePath;
+                    $jsonContent = file_get_contents($jsonPath);
+                    $jsonData = json_decode($jsonContent, true);
+                    if (is_array($jsonData)) {
+                        $translations = array_merge($translations, $jsonData);
+                    }
                 } catch (Throwable $e) {
-                    // Log error but continue loading other files
-                    logger()->warning("Failed to load translation file: {$filePath}", [
+                    logger()->warning("Failed to load JSON translation file: {$jsonPath}", [
                         'error' => $e->getMessage(),
                     ]);
+                }
+            }
+        }
+
+        // Load PHP files for backend translations
+        $translationPath = lang_path($locale);
+        $phpFiles = config('locale.php_files', []);
+
+        if (is_dir($translationPath)) {
+            foreach ($phpFiles as $file) {
+                $filePath = "{$translationPath}/{$file}.php";
+
+                if (file_exists($filePath)) {
+                    try {
+                        $translations[$file] = require $filePath;
+                    } catch (Throwable $e) {
+                        logger()->warning("Failed to load PHP translation file: {$filePath}", [
+                            'error' => $e->getMessage(),
+                        ]);
+                    }
                 }
             }
         }

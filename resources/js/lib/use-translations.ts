@@ -11,7 +11,7 @@ import { useMemo } from 'react';
  * @example
  * ```tsx
  * const __ = useTranslations();
- * const message = __('ui.main.dashboard');
+ * const message = __('main.dashboard');
  * const greeting = __('welcome.message', { name: 'John' });
  * ```
  */

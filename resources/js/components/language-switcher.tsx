@@ -57,7 +57,7 @@ export function LanguageSwitcher({
             >
                 <Globe className="h-5 w-5" />
                 <span className={className ? undefined : 'sr-only'}>
-                    {__('ui.language.title')}
+                    {__('language.title')}
                 </span>
             </Button>
         );
@@ -68,9 +68,9 @@ export function LanguageSwitcher({
             <DialogTrigger asChild>{renderTrigger()}</DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>{__('ui.language.title')}</DialogTitle>
+                    <DialogTitle>{__('language.title')}</DialogTitle>
                     <DialogDescription>
-                        {__('ui.language.description')}
+                        {__('language.description')}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2 py-4">

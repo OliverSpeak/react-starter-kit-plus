@@ -25,7 +25,7 @@ export default function Welcome({
                     <nav className="flex items-center justify-end gap-4">
                         <LanguageSwitcher>
                             <div className="inline-block cursor-pointer rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
-                                {__('ui.language.title')}
+                                {__('language.title')}
                             </div>
                         </LanguageSwitcher>
                         {auth.user ? (

@@ -1,0 +1,13 @@
+{
+    "main": {
+        "dashboard": "Dashboard"
+    },
+    "footer": {
+        "repository": "Repository",
+        "documentation": "Documentation"
+    },
+    "language": {
+        "title": "Language",
+        "description": "Choose your preferred language"
+    }
+}
