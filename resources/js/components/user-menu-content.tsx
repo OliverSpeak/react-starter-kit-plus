@@ -39,7 +39,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                 <LanguageSwitcher>
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         <Globe className="mr-2" />
-                        {__('ui.language.title')}
+                        {__('language.title')}
                     </DropdownMenuItem>
                 </LanguageSwitcher>
                 <DropdownMenuItem asChild>

@@ -56,24 +56,32 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Translation Files to Load
+    | PHP Translation Files to Load
     |--------------------------------------------------------------------------
     |
-    | This array specifies which translation files should be loaded and shared
-    | with the frontend. Files are loaded in the order specified. If a file
-    | doesn't exist for a locale, it will be silently skipped.
-    |
-    | You can add or remove files as needed. The key is the namespace that
-    | will be used in the frontend (e.g., 'auth' becomes 'translations.auth').
+    | These are backend-related translation files (validation, auth, etc.)
+    | that are loaded from lang/{locale}/{file}.php. These are used by Laravel
+    | for backend validation messages and other server-side translations.
     |
     */
 
-    'files' => [
+    'php_files' => [
         'auth',
         'pagination',
         'passwords',
-        'ui',
         'validation',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | JSON Translation Files
+    |--------------------------------------------------------------------------
+    |
+    | UI-related translations are stored as JSON files in lang/{locale}.json.
+    | These are loaded and shared with the frontend for UI elements.
+    |
+    */
+
+    'json_enabled' => true,
 
 ];
