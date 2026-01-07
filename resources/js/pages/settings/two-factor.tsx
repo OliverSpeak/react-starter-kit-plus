@@ -44,6 +44,9 @@ export default function TwoFactor({
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t('settings.twoFactor.settingsTitle')} />
+
+            <h1 className="sr-only">Two-Factor Authentication Settings</h1>
+
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
@@ -52,7 +55,9 @@ export default function TwoFactor({
                     />
                     {twoFactorEnabled ? (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <Badge variant="default">{t('settings.twoFactor.enabled')}</Badge>
+                            <Badge variant="default">
+                                {t('settings.twoFactor.enabled')}
+                            </Badge>
                             <p className="text-muted-foreground">
                                 {t('settings.twoFactor.enabledDescription')}
                             </p>
@@ -71,7 +76,8 @@ export default function TwoFactor({
                                             type="submit"
                                             disabled={processing}
                                         >
-                                            <ShieldBan /> {t('settings.twoFactor.disable2FA')}
+                                            <ShieldBan />{' '}
+                                            {t('settings.twoFactor.disable2FA')}
                                         </Button>
                                     )}
                                 </Form>
@@ -79,7 +85,9 @@ export default function TwoFactor({
                         </div>
                     ) : (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <Badge variant="destructive">{t('settings.twoFactor.disabled')}</Badge>
+                            <Badge variant="destructive">
+                                {t('settings.twoFactor.disabled')}
+                            </Badge>
                             <p className="text-muted-foreground">
                                 {t('settings.twoFactor.disabledDescription')}
                             </p>
@@ -105,7 +113,9 @@ export default function TwoFactor({
                                                 disabled={processing}
                                             >
                                                 <ShieldCheck />
-                                                {t('settings.twoFactor.enable2FA')}
+                                                {t(
+                                                    'settings.twoFactor.enable2FA',
+                                                )}
                                             </Button>
                                         )}
                                     </Form>
