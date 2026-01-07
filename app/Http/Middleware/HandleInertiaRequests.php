@@ -64,6 +64,7 @@ final class HandleInertiaRequests extends Middleware
     private function loadTranslations(string $locale): array
     {
         $translations = [];
+        $jsonKeys = [];
 
         // Load JSON file for UI translations (if enabled)
         if (config('locale.json_enabled', true)) {
@@ -72,7 +73,11 @@ final class HandleInertiaRequests extends Middleware
                 try {
                     $jsonContent = file_get_contents($jsonPath);
                     $jsonData = json_decode($jsonContent, true);
-                    if (is_array($jsonData)) {
+
+                    if (! is_array($jsonData)) {
+                        logger()->warning("JSON translation file does not contain a valid array: {$jsonPath}");
+                    } else {
+                        $jsonKeys = array_keys($jsonData);
                         $translations = array_merge($translations, $jsonData);
                     }
                 } catch (Throwable $e) {
@@ -84,16 +89,50 @@ final class HandleInertiaRequests extends Middleware
         }
 
         // Load PHP files for backend translations
+        // These are loaded under a 'backend' namespace to strictly avoid conflicts with JSON UI translations
         $translationPath = lang_path($locale);
         $phpFiles = config('locale.php_files', []);
 
+        if (! is_array($phpFiles)) {
+            logger()->warning('locale.php_files config must be an array');
+            $phpFiles = [];
+        }
+
         if (is_dir($translationPath)) {
             foreach ($phpFiles as $file) {
+                if (! is_string($file)) {
+                    logger()->warning('Invalid PHP file name in locale.php_files config: '.var_export($file, true));
+
+                    continue;
+                }
+
                 $filePath = "{$translationPath}/{$file}.php";
 
                 if (file_exists($filePath)) {
                     try {
-                        $translations[$file] = require $filePath;
+                        $phpData = require $filePath;
+
+                        if (! is_array($phpData)) {
+                            logger()->warning("PHP translation file does not return an array: {$filePath}");
+
+                            continue;
+                        }
+
+                        // Strict: Check for conflicts with JSON top-level keys
+                        if (in_array($file, $jsonKeys, true)) {
+                            logger()->warning(
+                                "PHP translation file '{$file}' conflicts with JSON key. ".
+                                "PHP translations will be namespaced under 'backend.{$file}' to avoid conflicts.",
+                                ['json_key' => $file, 'php_file' => $filePath]
+                            );
+                        }
+
+                        // Store PHP translations under 'backend' namespace to strictly avoid conflicts
+                        // e.g., backend.auth.failed instead of auth.failed
+                        if (! isset($translations['backend']) || ! is_array($translations['backend'])) {
+                            $translations['backend'] = [];
+                        }
+                        $translations['backend'][$file] = $phpData;
                     } catch (Throwable $e) {
                         logger()->warning("Failed to load PHP translation file: {$filePath}", [
                             'error' => $e->getMessage(),
