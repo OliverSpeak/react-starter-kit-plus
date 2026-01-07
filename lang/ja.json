@@ -1,6 +1,21 @@
 {
+    "common": {
+        "save": "保存",
+        "saved": "保存しました",
+        "cancel": "キャンセル",
+        "close": "閉じる",
+        "continue": "続行",
+        "next": "次へ",
+        "back": "戻る",
+        "confirm": "確認",
+        "delete": "削除",
+        "edit": "編集",
+        "create": "作成",
+        "update": "更新"
+    },
     "main": {
-        "dashboard": "ダッシュボード"
+        "dashboard": "ダッシュボード",
+        "platform": "プラットフォーム"
     },
     "footer": {
         "repository": "リポジトリ",
@@ -9,6 +24,129 @@
     "language": {
         "title": "言語",
         "description": "希望する言語を選択してください"
+    },
+    "auth": {
+        "login": "ログイン",
+        "register": "登録",
+        "logout": "ログアウト",
+        "loginTitle": "アカウントにログイン",
+        "loginDescription": "以下にメールアドレスとパスワードを入力してログインしてください",
+        "emailAddress": "メールアドレス",
+        "password": "パスワード",
+        "forgotPassword": "パスワードをお忘れですか？",
+        "rememberMe": "ログイン状態を保持",
+        "noAccount": "アカウントをお持ちでない場合",
+        "signUp": "サインアップ",
+        "registerTitle": "アカウントを作成",
+        "registerDescription": "以下に詳細を入力してアカウントを作成してください",
+        "name": "名前",
+        "fullName": "フルネーム",
+        "confirmPassword": "パスワード確認",
+        "createAccount": "アカウントを作成",
+        "hasAccount": "既にアカウントをお持ちの場合",
+        "forgotPasswordTitle": "パスワードを忘れた場合",
+        "forgotPasswordDescription": "パスワードリセットリンクを受け取るためにメールアドレスを入力してください",
+        "emailResetLink": "パスワードリセットリンクをメール送信",
+        "returnToLogin": "または、",
+        "verifyEmailTitle": "メールアドレスを確認",
+        "verifyEmailDescription": "メールでお送りしたリンクをクリックしてメールアドレスを確認してください。",
+        "emailVerification": "メールアドレス確認",
+        "verificationLinkSent": "登録時に提供したメールアドレスに新しい確認リンクを送信しました。",
+        "resendVerificationEmail": "確認メールを再送信",
+        "confirmPasswordTitle": "パスワードを確認",
+        "confirmPasswordDescription": "これはアプリケーションの安全な領域です。続行する前にパスワードを確認してください。",
+        "resetPasswordTitle": "パスワードをリセット",
+        "resetPasswordDescription": "以下に新しいパスワードを入力してください",
+        "resetPassword": "パスワードをリセット",
+        "email": "メール",
+        "twoFactorTitle": "二要素認証",
+        "recoveryCode": "リカバリーコード",
+        "recoveryCodeDescription": "緊急リカバリーコードのいずれかを入力して、アカウントへのアクセスを確認してください。",
+        "loginWithAuthCode": "認証コードを使用してログイン",
+        "authenticationCode": "認証コード",
+        "authenticationCodeDescription": "認証アプリケーションから提供された認証コードを入力してください。",
+        "loginWithRecoveryCode": "リカバリーコードを使用してログイン",
+        "enterRecoveryCode": "リカバリーコードを入力",
+        "orYouCan": "または、"
+    },
+    "menu": {
+        "settings": "設定"
+    },
+    "appearance": {
+        "light": "ライト",
+        "dark": "ダーク",
+        "system": "システム",
+        "toggleTheme": "テーマを切り替え"
+    },
+    "settings": {
+        "title": "設定",
+        "description": "プロフィールとアカウント設定を管理",
+        "profile": {
+            "title": "プロフィール",
+            "settingsTitle": "プロフィール設定",
+            "profileInformation": "プロフィール情報",
+            "description": "名前とメールアドレスを更新",
+            "emailUnverified": "メールアドレスが確認されていません。",
+            "resendVerification": "ここをクリックして確認メールを再送信してください。",
+            "verificationLinkSent": "新しい確認リンクがメールアドレスに送信されました。"
+        },
+        "password": {
+            "title": "パスワード",
+            "settingsTitle": "パスワード設定",
+            "updatePassword": "パスワードを更新",
+            "description": "アカウントが長くランダムなパスワードを使用していることを確認して、セキュリティを保つ",
+            "currentPassword": "現在のパスワード",
+            "newPassword": "新しいパスワード",
+            "savePassword": "パスワードを保存"
+        },
+        "appearance": {
+            "title": "外観",
+            "settingsTitle": "外観設定",
+            "description": "アカウントの外観設定を更新"
+        },
+        "twoFactor": {
+            "title": "二要素認証",
+            "settingsTitle": "二要素認証",
+            "description": "二要素認証設定を管理",
+            "enabled": "有効",
+            "disabled": "無効",
+            "enabledDescription": "二要素認証が有効になっている場合、ログイン時に安全なランダムなPINの入力が求められます。これは、お使いの電話のTOTP対応アプリケーションから取得できます。",
+            "disabledDescription": "二要素認証を有効にすると、ログイン時に安全なPINの入力が求められます。このPINは、お使いの電話のTOTP対応アプリケーションから取得できます。",
+            "disable2FA": "2FAを無効化",
+            "continueSetup": "セットアップを続行",
+            "enable2FA": "2FAを有効化",
+            "recoveryCodes": {
+                "title": "2FAリカバリーコード",
+                "description": "リカバリーコードを使用すると、2FAデバイスを紛失した場合にアクセスを回復できます。安全なパスワードマネージャーに保存してください。",
+                "view": "リカバリーコードを表示",
+                "hide": "リカバリーコードを非表示",
+                "regenerate": "コードを再生成",
+                "warning": "各リカバリーコードは、アカウントにアクセスするために一度使用でき、使用後に削除されます。さらに必要な場合は、上記の「コードを再生成」をクリックしてください。"
+            },
+            "setup": {
+                "orEnterManually": "または、コードを手動で入力",
+                "setupKey": "セットアップキー",
+                "copy": "コピー",
+                "enabledTitle": "二要素認証が有効になりました",
+                "enabledDescription": "二要素認証が有効になりました。QRコードをスキャンするか、認証アプリにセットアップキーを入力してください。",
+                "verifyTitle": "認証コードを確認",
+                "verifyDescription": "認証アプリから6桁のコードを入力してください",
+                "enableTitle": "二要素認証を有効化",
+                "enableDescription": "二要素認証の有効化を完了するには、QRコードをスキャンするか、認証アプリにセットアップキーを入力してください"
+            }
+        }
+    },
+    "deleteAccount": {
+        "title": "アカウントを削除",
+        "description": "アカウントとそのすべてのリソースを削除",
+        "warning": "警告",
+        "warningMessage": "注意して進めてください。この操作は元に戻せません。",
+        "confirmTitle": "アカウントを削除してもよろしいですか？",
+        "confirmDescription": "アカウントを削除すると、そのすべてのリソースとデータも永久に削除されます。アカウントを永久に削除することを確認するには、パスワードを入力してください。",
+        "password": "パスワード",
+        "button": "アカウントを削除"
+    },
+    "alert": {
+        "error": "エラーが発生しました。"
     }
 }
-

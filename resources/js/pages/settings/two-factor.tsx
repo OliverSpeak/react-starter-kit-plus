@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { useTranslation } from '@/lib/use-translations';
 import { disable, enable, show } from '@/routes/two-factor';
 import { type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/react';
@@ -17,17 +18,17 @@ interface TwoFactorProps {
     twoFactorEnabled?: boolean;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Two-Factor Authentication',
-        href: show.url(),
-    },
-];
-
 export default function TwoFactor({
     requiresConfirmation = false,
     twoFactorEnabled = false,
 }: TwoFactorProps) {
+    const t = useTranslation();
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: t('settings.twoFactor.settingsTitle'),
+            href: show.url(),
+        },
+    ];
     const {
         qrCodeSvg,
         hasSetupData,
@@ -42,24 +43,23 @@ export default function TwoFactor({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Two-Factor Authentication" />
+            <Head title={t('settings.twoFactor.settingsTitle')} />
 
             <h1 className="sr-only">Two-Factor Authentication Settings</h1>
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Two-Factor Authentication"
-                        description="Manage your two-factor authentication settings"
+                        title={t('settings.twoFactor.settingsTitle')}
+                        description={t('settings.twoFactor.description')}
                     />
                     {twoFactorEnabled ? (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <Badge variant="default">Enabled</Badge>
+                            <Badge variant="default">
+                                {t('settings.twoFactor.enabled')}
+                            </Badge>
                             <p className="text-muted-foreground">
-                                With two-factor authentication enabled, you will
-                                be prompted for a secure, random pin during
-                                login, which you can retrieve from the
-                                TOTP-supported application on your phone.
+                                {t('settings.twoFactor.enabledDescription')}
                             </p>
 
                             <TwoFactorRecoveryCodes
@@ -76,7 +76,8 @@ export default function TwoFactor({
                                             type="submit"
                                             disabled={processing}
                                         >
-                                            <ShieldBan /> Disable 2FA
+                                            <ShieldBan />{' '}
+                                            {t('settings.twoFactor.disable2FA')}
                                         </Button>
                                     )}
                                 </Form>
@@ -84,12 +85,11 @@ export default function TwoFactor({
                         </div>
                     ) : (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <Badge variant="destructive">Disabled</Badge>
+                            <Badge variant="destructive">
+                                {t('settings.twoFactor.disabled')}
+                            </Badge>
                             <p className="text-muted-foreground">
-                                When you enable two-factor authentication, you
-                                will be prompted for a secure pin during login.
-                                This pin can be retrieved from a TOTP-supported
-                                application on your phone.
+                                {t('settings.twoFactor.disabledDescription')}
                             </p>
 
                             <div>
@@ -98,7 +98,7 @@ export default function TwoFactor({
                                         onClick={() => setShowSetupModal(true)}
                                     >
                                         <ShieldCheck />
-                                        Continue Setup
+                                        {t('settings.twoFactor.continueSetup')}
                                     </Button>
                                 ) : (
                                     <Form
@@ -113,7 +113,9 @@ export default function TwoFactor({
                                                 disabled={processing}
                                             >
                                                 <ShieldCheck />
-                                                Enable 2FA
+                                                {t(
+                                                    'settings.twoFactor.enable2FA',
+                                                )}
                                             </Button>
                                         )}
                                     </Form>
