@@ -1,5 +1,5 @@
 import { LanguageSwitcher } from '@/components/language-switcher';
-import { useTranslations } from '@/lib/use-translations';
+import { useTranslation } from '@/lib/use-translations';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
@@ -10,7 +10,7 @@ export default function Welcome({
     canRegister?: boolean;
 }) {
     const { auth } = usePage<SharedData>().props;
-    const __ = useTranslations();
+    const t = useTranslation();
     return (
         <>
             <Head title="Welcome">
@@ -25,7 +25,7 @@ export default function Welcome({
                     <nav className="flex items-center justify-end gap-4">
                         <LanguageSwitcher>
                             <div className="inline-block cursor-pointer rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
-                                {__('language.title')}
+                                {t('language.title')}
                             </div>
                         </LanguageSwitcher>
                         {auth.user ? (

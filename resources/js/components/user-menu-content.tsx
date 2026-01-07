@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { useTranslations } from '@/lib/use-translations';
+import { useTranslation } from '@/lib/use-translations';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import { type User } from '@/types';
@@ -20,7 +20,7 @@ interface UserMenuContentProps {
 
 export function UserMenuContent({ user }: UserMenuContentProps) {
     const cleanup = useMobileNavigation();
-    const __ = useTranslations();
+    const t = useTranslation();
 
     const handleLogout = () => {
         cleanup();
@@ -39,7 +39,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                 <LanguageSwitcher>
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         <Globe className="mr-2" />
-                        {__('language.title')}
+                        {t('language.title')}
                     </DropdownMenuItem>
                 </LanguageSwitcher>
                 <DropdownMenuItem asChild>

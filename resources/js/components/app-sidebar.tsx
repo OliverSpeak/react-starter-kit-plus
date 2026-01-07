@@ -10,7 +10,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { useTranslations } from '@/lib/use-translations';
+import { useTranslation } from '@/lib/use-translations';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -18,11 +18,11 @@ import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
-    const __ = useTranslations();
+    const t = useTranslation();
 
     const mainNavItems: NavItem[] = [
         {
-            title: __('main.dashboard'),
+            title: t('main.dashboard'),
             href: dashboard(),
             icon: LayoutGrid,
         },
@@ -30,12 +30,12 @@ export function AppSidebar() {
 
     const footerNavItems: NavItem[] = [
         {
-            title: __('footer.repository'),
+            title: t('footer.repository'),
             href: 'https://github.com/laravel/react-starter-kit',
             icon: Folder,
         },
         {
-            title: __('footer.documentation'),
+            title: t('footer.documentation'),
             href: 'https://laravel.com/docs/starter-kits#react',
             icon: BookOpen,
         },
