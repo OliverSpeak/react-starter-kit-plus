@@ -7,7 +7,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { useTranslations } from '@/lib/use-translations';
+import { useTranslation } from '@/lib/use-translations';
 import { cn } from '@/lib/utils';
 import { update } from '@/routes/locale';
 import { PageProps } from '@/types';
@@ -24,7 +24,7 @@ export function LanguageSwitcher({
     children,
     className,
 }: LanguageSwitcherProps = {}) {
-    const __ = useTranslations();
+    const t = useTranslation();
     const { props } = usePage<PageProps>();
     const currentLocale = props.currentLocale || 'en';
     const supportedLocales = props.supportedLocales || {};
@@ -57,7 +57,7 @@ export function LanguageSwitcher({
             >
                 <Globe className="h-5 w-5" />
                 <span className={className ? undefined : 'sr-only'}>
-                    {__('language.title')}
+                    {t('language.title')}
                 </span>
             </Button>
         );
@@ -68,9 +68,9 @@ export function LanguageSwitcher({
             <DialogTrigger asChild>{renderTrigger()}</DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>{__('language.title')}</DialogTitle>
+                    <DialogTitle>{t('language.title')}</DialogTitle>
                     <DialogDescription>
-                        {__('language.description')}
+                        {t('language.description')}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-2 py-4">
