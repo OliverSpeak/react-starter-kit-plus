@@ -27,6 +27,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
+import { useActiveUrl } from '@/hooks/use-active-url';
 import { useInitials } from '@/hooks/use-initials';
 import { useTranslation } from '@/lib/use-translations';
 import { cn, toUrl } from '@/lib/utils';
@@ -49,6 +50,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const { auth } = page.props;
     const t = useTranslation();
     const getInitials = useInitials();
+    const { urlIsActive } = useActiveUrl();
 
     const mainNavItems: NavItem[] = [
         {
