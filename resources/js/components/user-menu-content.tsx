@@ -44,9 +44,8 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                 </LanguageSwitcher>
                 <DropdownMenuItem asChild>
                     <Link
-                        className="block w-full"
+                        className="block w-full cursor-pointer"
                         href={edit()}
-                        as="button"
                         prefetch
                         onClick={cleanup}
                     >
@@ -58,7 +57,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                 <Link
-                    className="block w-full"
+                    className="block w-full cursor-pointer"
                     href={logout()}
                     as="button"
                     onClick={handleLogout}

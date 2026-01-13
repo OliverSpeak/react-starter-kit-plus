@@ -1,8 +1,9 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useActiveUrl } from '@/hooks/use-active-url';
 import { useTranslation } from '@/lib/use-translations';
-import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
+import { cn, toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit } from '@/routes/profile';
 import { show } from '@/routes/two-factor';
@@ -13,7 +14,8 @@ import { type PropsWithChildren } from 'react';
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const t = useTranslation();
-    
+    const { urlIsActive } = useActiveUrl();
+
     const sidebarNavItems: NavItem[] = [
         {
             title: t('settings.profile.title'),
@@ -42,8 +44,6 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
         return null;
     }
 
-    const currentPath = window.location.pathname;
-
     return (
         <div className="px-4 py-6">
             <Heading
@@ -53,18 +53,18 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
-                    <nav className="flex flex-col space-y-1 space-x-0" aria-label="Settings">
+                    <nav
+                        className="flex flex-col space-y-1 space-x-0"
+                        aria-label="Settings"
+                    >
                         {sidebarNavItems.map((item, index) => (
                             <Button
-                                key={`${resolveUrl(item.href)}-${index}`}
+                                key={`${toUrl(item.href)}-${index}`}
                                 size="sm"
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-muted': isSameUrl(
-                                        currentPath,
-                                        item.href,
-                                    ),
+                                    'bg-muted': urlIsActive(item.href),
                                 })}
                             >
                                 <Link href={item.href}>
