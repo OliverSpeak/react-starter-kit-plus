@@ -18,8 +18,13 @@ final class LocaleController extends Controller
             'locale' => ['required', 'string', 'in:'.implode(',', array_keys(config('locale.supported', [])))],
         ]);
 
-        session()->put('locale', $validated['locale']);
+        // Save to user record if authenticated
+        $user = $request->user();
+        if ($user) {
+            $user->update(['locale' => $validated['locale']]);
+        }
 
-        return redirect()->back();
+        // Save to cookie to persist across logout/login
+        return redirect()->back()->cookie('locale', $validated['locale'], 60 * 24 * 365); // 1 year
     }
 }

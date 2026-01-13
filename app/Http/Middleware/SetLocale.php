@@ -18,7 +18,6 @@ final class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Get locale from session or default to config value
         $locale = $this->getLocale($request);
 
         App::setLocale($locale);
@@ -31,13 +30,52 @@ final class SetLocale
      */
     private function getLocale(Request $request): string
     {
-        $locale = session('locale');
+        // Priority: authenticated user's locale preference > cookie > browser > default
+        $user = $request->user();
+        if ($user && $user->locale && $this->isSupportedLocale($user->locale)) {
+            return $user->locale;
+        }
 
-        if ($locale && $this->isSupportedLocale($locale)) {
-            return $locale;
+        // Check cookie for persisted preference (survives logout/login)
+        $cookieLocale = $request->cookie('locale');
+        if ($cookieLocale && $this->isSupportedLocale($cookieLocale)) {
+            return $cookieLocale;
+        }
+
+        // Only use browser language if no cookie preference exists (first visit)
+        $browserLocale = $this->getBrowserLocale($request);
+        if ($browserLocale && $this->isSupportedLocale($browserLocale)) {
+            return $browserLocale;
         }
 
         return $this->getDefaultLocale();
+    }
+
+    /**
+     * Get the preferred locale from the browser's Accept-Language header.
+     */
+    private function getBrowserLocale(Request $request): ?string
+    {
+        $acceptLanguage = $request->header('Accept-Language');
+        if (! $acceptLanguage) {
+            return null;
+        }
+
+        // Parse Accept-Language header and check each language in order
+        // (e.g., "en-US,en;q=0.9,ja;q=0.8" -> check "en", then "ja")
+        foreach (explode(',', $acceptLanguage) as $lang) {
+            // Extract locale (remove quality value if present)
+            $locale = mb_strtolower(trim(explode(';', trim($lang))[0]));
+
+            // Extract base locale (e.g., "en-US" -> "en")
+            $baseLocale = explode('-', $locale)[0];
+
+            if ($baseLocale !== '' && $this->isSupportedLocale($baseLocale)) {
+                return $baseLocale;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -53,6 +91,8 @@ final class SetLocale
      */
     private function isSupportedLocale(string $locale): bool
     {
-        return array_key_exists($locale, config('locale.supported', []));
+        $supported = config('locale.supported', []);
+
+        return is_array($supported) && array_key_exists($locale, $supported);
     }
 }
