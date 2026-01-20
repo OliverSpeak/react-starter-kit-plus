@@ -26,9 +26,11 @@ This implementation uses a hybrid approach: the backend follows Laravel's [conve
 
 The `lang` directory has been scaffolded using Laravel's `lang:publish` Artisan command, and is where both PHP and JSON language files are stored. For demonstration purposes, a Japanese `ja` directory has been created alongside the English `en` directory with files for both the frontend and backend. The Japanese translations have not been audited for accuracy.
 
-A `config/locale.php` file has been created to centralise locale settings, such as supported languages and the default language.
+A `config/locale.php` file has been created to centralise locale settings, such as supported languages and the default language. Supported languages implicitly use the [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) format.
 
 A new component `language-switcher.tsx` has been created to provide a user-facing interface to view and switch languages, accessible from the welcome and dashboard pages.
+
+Preferred locale persistence works using the priority chain: authenticated user (database) > cookie > browser `Accept-Language` header > app default. When an authenticated user changes their locale, this is updated in both the database and the new `locale` cookie, which is excluded from encryption.
 
 Finally, every user-facing label has been refactored to use `useTranslation()` with the convention `t('lang.key')`, like react-i18next. Some page components have had their `breadcrumbs` constants moved to within the default function so that breadcrumbs can use `useTranslation()`, but is otherwise not refactored beyond that.
 
