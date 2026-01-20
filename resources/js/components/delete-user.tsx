@@ -1,5 +1,8 @@
+import { Form } from '@inertiajs/react';
+import { useRef } from 'react';
+
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import HeadingSmall from '@/components/heading-small';
+import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,8 +17,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslation } from '@/lib/use-translations';
-import { Form } from '@inertiajs/react';
-import { useRef } from 'react';
 
 export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -23,7 +24,8 @@ export default function DeleteUser() {
 
     return (
         <div className="space-y-6">
-            <HeadingSmall
+            <Heading
+                variant="small"
                 title={t('deleteAccount.title')}
                 description={t('deleteAccount.description')}
             />

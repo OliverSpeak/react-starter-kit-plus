@@ -1,3 +1,6 @@
+import { Link, router } from '@inertiajs/react';
+import { Globe, LogOut, Settings } from 'lucide-react';
+
 import { LanguageSwitcher } from '@/components/language-switcher';
 import {
     DropdownMenuGroup,
@@ -11,8 +14,6 @@ import { useTranslation } from '@/lib/use-translations';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import { type User } from '@/types';
-import { Link, router } from '@inertiajs/react';
-import { Globe, LogOut, Settings } from 'lucide-react';
 
 interface UserMenuContentProps {
     user: User;

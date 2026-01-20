@@ -1,8 +1,9 @@
+import { Head, Link, usePage } from '@inertiajs/react';
+
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { useTranslation } from '@/lib/use-translations';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function Welcome({
     canRegister = true,

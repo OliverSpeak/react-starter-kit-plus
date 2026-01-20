@@ -1,13 +1,12 @@
 import { Head } from '@inertiajs/react';
 
 import AppearanceTabs from '@/components/appearance-tabs';
-import HeadingSmall from '@/components/heading-small';
-import { useTranslation } from '@/lib/use-translations';
-import { type BreadcrumbItem } from '@/types';
-
+import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { useTranslation } from '@/lib/use-translations';
 import { edit as editAppearance } from '@/routes/appearance';
+import { type BreadcrumbItem } from '@/types';
 
 export default function Appearance() {
     const t = useTranslation();
@@ -26,7 +25,8 @@ export default function Appearance() {
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall
+                    <Heading
+                        variant="small"
                         title={t('settings.appearance.settingsTitle')}
                         description={t('settings.appearance.description')}
                     />
