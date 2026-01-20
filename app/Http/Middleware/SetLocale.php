@@ -32,8 +32,11 @@ final class SetLocale
     {
         // Priority: authenticated user's locale preference > cookie > browser > default
         $user = $request->user();
-        if ($user && $user->locale && $this->isSupportedLocale($user->locale)) {
-            return $user->locale;
+        if ($user && array_key_exists('locale', $user->getAttributes())) {
+            $userLocale = $user->getAttributeValue('locale');
+            if ($userLocale && $this->isSupportedLocale($userLocale)) {
+                return $userLocale;
+            }
         }
 
         // Check cookie for persisted preference (survives logout/login)
@@ -65,7 +68,7 @@ final class SetLocale
         // (e.g., "en-US,en;q=0.9,ja;q=0.8" -> check "en", then "ja")
         foreach (explode(',', $acceptLanguage) as $lang) {
             // Extract locale (remove quality value if present)
-            $locale = mb_strtolower(trim(explode(';', trim($lang))[0]));
+            $locale = mb_strtolower(mb_trim(explode(';', mb_trim($lang))[0]));
 
             // Extract base locale (e.g., "en-US" -> "en")
             $baseLocale = explode('-', $locale)[0];
