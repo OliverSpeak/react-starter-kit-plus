@@ -2,7 +2,6 @@ import { Form } from '@inertiajs/react';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { Check, Copy, ScanLine } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,7 +21,6 @@ import { useClipboard } from '@/hooks/use-clipboard';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
 import { useTranslation } from '@/lib/use-translations';
 import { confirm } from '@/routes/two-factor';
-
 import AlertError from './alert-error';
 import { Spinner } from './ui/spinner';
 
@@ -239,7 +237,7 @@ function TwoFactorVerificationStep({
     );
 }
 
-interface TwoFactorSetupModalProps {
+type Props = {
     isOpen: boolean;
     onClose: () => void;
     requiresConfirmation: boolean;
@@ -249,7 +247,7 @@ interface TwoFactorSetupModalProps {
     clearSetupData: () => void;
     fetchSetupData: () => Promise<void>;
     errors: string[];
-}
+};
 
 export default function TwoFactorSetupModal({
     isOpen,
@@ -261,7 +259,7 @@ export default function TwoFactorSetupModal({
     clearSetupData,
     fetchSetupData,
     errors,
-}: TwoFactorSetupModalProps) {
+}: Props) {
     const t = useTranslation();
     const [showVerificationStep, setShowVerificationStep] =
         useState<boolean>(false);

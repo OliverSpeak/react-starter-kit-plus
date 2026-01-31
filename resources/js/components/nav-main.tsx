@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -7,12 +6,12 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { useActiveUrl } from '@/hooks/use-active-url';
+import { useCurrentUrl } from '@/hooks/use-current-url';
+import type { NavItem } from '@/types';
 import { useTranslation } from '@/lib/use-translations';
-import { type NavItem } from '@/types';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
-    const { urlIsActive } = useActiveUrl();
+    const { isCurrentUrl } = useCurrentUrl();
     const t = useTranslation();
 
     return (
@@ -23,7 +22,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
                             asChild
-                            isActive={urlIsActive(item.href)}
+                            isActive={isCurrentUrl(item.href)}
                             tooltip={{ children: item.title }}
                         >
                             <Link href={item.href} prefetch>
