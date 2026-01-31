@@ -1,5 +1,4 @@
 import { Form, Head } from '@inertiajs/react';
-
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,12 +7,12 @@ import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { update } from '@/routes/password';
 
-interface ResetPasswordProps {
+type Props = {
     token: string;
     email: string;
-}
+};
 
-export default function ResetPassword({ token, email }: ResetPasswordProps) {
+export default function ResetPassword({ token, email }: Props) {
     return (
         <AuthLayout
             title="Reset password"
