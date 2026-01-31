@@ -13,13 +13,13 @@ import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { useTranslation } from '@/lib/use-translations';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
-import { type User } from '@/types';
+import type { User } from '@/types';
 
-interface UserMenuContentProps {
+type Props = {
     user: User;
-}
+};
 
-export function UserMenuContent({ user }: UserMenuContentProps) {
+export function UserMenuContent({ user }: Props) {
     const cleanup = useMobileNavigation();
     const t = useTranslation();
 
