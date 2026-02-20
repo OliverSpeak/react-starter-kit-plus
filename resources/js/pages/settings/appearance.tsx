@@ -3,9 +3,9 @@ import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import type { BreadcrumbItem } from '@/types';
 import { useTranslation } from '@/lib/use-translations';
 import { edit as editAppearance } from '@/routes/appearance';
-import type { BreadcrumbItem } from '@/types';
 
 export default function Appearance() {
     const t = useTranslation();
@@ -15,7 +15,7 @@ export default function Appearance() {
             href: editAppearance().url,
         },
     ];
-    
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t('settings.appearance.settingsTitle')} />

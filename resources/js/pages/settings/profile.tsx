@@ -1,6 +1,5 @@
 import { Transition } from '@headlessui/react';
 import { Form, Head, Link, usePage } from '@inertiajs/react';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -9,10 +8,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import type { BreadcrumbItem } from '@/types';
+import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import { useTranslation } from '@/lib/use-translations';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
-import type { BreadcrumbItem, SharedData } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -29,8 +29,8 @@ export default function Profile({
     status?: string;
 }) {
     const t = useTranslation();
-    const { auth } = usePage<SharedData>().props;
-    
+    const { auth } = usePage().props;
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('settings.profile.settingsTitle'),
@@ -62,7 +62,9 @@ export default function Profile({
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="name">{t('auth.name')}</Label>
+                                    <Label htmlFor="name">
+                                        {t('auth.name')}
+                                    </Label>
 
                                     <Input
                                         id="name"
@@ -81,7 +83,9 @@ export default function Profile({
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">{t('auth.emailAddress')}</Label>
+                                    <Label htmlFor="email">
+                                        {t('auth.emailAddress')}
+                                    </Label>
 
                                     <Input
                                         id="email"
@@ -104,20 +108,26 @@ export default function Profile({
                                     auth.user.email_verified_at === null && (
                                         <div>
                                             <p className="-mt-4 text-sm text-muted-foreground">
-                                                {t('settings.profile.emailUnverified')}{' '}
+                                                {t(
+                                                    'settings.profile.emailUnverified',
+                                                )}{' '}
                                                 <Link
                                                     href={send()}
                                                     as="button"
                                                     className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                                                 >
-                                                    {t('settings.profile.resendVerification')}
+                                                    {t(
+                                                        'settings.profile.resendVerification',
+                                                    )}
                                                 </Link>
                                             </p>
 
                                             {status ===
                                                 'verification-link-sent' && (
                                                 <div className="mt-2 text-sm font-medium text-green-600">
-                                                    {t('settings.profile.verificationLinkSent')}
+                                                    {t(
+                                                        'settings.profile.verificationLinkSent',
+                                                    )}
                                                 </div>
                                             )}
                                         </div>

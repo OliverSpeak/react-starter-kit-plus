@@ -10,8 +10,8 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { useTranslation } from '@/lib/use-translations';
-import { regenerateRecoveryCodes } from '@/routes/two-factor';
 import AlertError from './alert-error';
+import { regenerateRecoveryCodes } from '@/routes/two-factor';
 
 type Props = {
     recoveryCodesList: string[];
@@ -77,7 +77,9 @@ export default function TwoFactorRecoveryCodes({
                             className="size-4"
                             aria-hidden="true"
                         />
-                        {codesAreVisible ? t('settings.twoFactor.recoveryCodes.hide') : t('settings.twoFactor.recoveryCodes.view')}
+                        {codesAreVisible
+                            ? t('settings.twoFactor.recoveryCodes.hide')
+                            : t('settings.twoFactor.recoveryCodes.view')}
                     </Button>
 
                     {canRegenerateCodes && (
@@ -93,7 +95,10 @@ export default function TwoFactorRecoveryCodes({
                                     disabled={processing}
                                     aria-describedby="regenerate-warning"
                                 >
-                                    <RefreshCw /> {t('settings.twoFactor.recoveryCodes.regenerate')}
+                                    <RefreshCw />{' '}
+                                    {t(
+                                        'settings.twoFactor.recoveryCodes.regenerate',
+                                    )}
                                 </Button>
                             )}
                         </Form>
@@ -146,7 +151,9 @@ export default function TwoFactorRecoveryCodes({
 
                                 <div className="text-xs text-muted-foreground select-none">
                                     <p id="regenerate-warning">
-                                        {t('settings.twoFactor.recoveryCodes.warning')}
+                                        {t(
+                                            'settings.twoFactor.recoveryCodes.warning',
+                                        )}
                                     </p>
                                 </div>
                             </>
