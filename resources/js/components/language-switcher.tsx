@@ -10,7 +10,6 @@ import {
 import { useTranslation } from '@/lib/use-translations';
 import { cn } from '@/lib/utils';
 import { update } from '@/routes/locale';
-import { PageProps } from '@/types';
 import { router, usePage } from '@inertiajs/react';
 import { Check, Globe } from 'lucide-react';
 import { type ReactNode, useMemo, useState } from 'react';
@@ -25,7 +24,7 @@ export function LanguageSwitcher({
     className,
 }: LanguageSwitcherProps = {}) {
     const t = useTranslation();
-    const { props } = usePage<PageProps>();
+    const { props } = usePage();
     const currentLocale = props.currentLocale || 'en';
     const supportedLocales = props.supportedLocales || {};
     const [open, setOpen] = useState(false);
