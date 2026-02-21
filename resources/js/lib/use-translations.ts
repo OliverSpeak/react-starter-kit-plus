@@ -1,6 +1,10 @@
-import { type PageProps, type TranslationObject } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useMemo } from 'react';
+
+/**
+ * Translation object type for nested translation structures.
+ */
+type TranslationObject = Record<string, string | TranslationObject>;
 
 /**
  * Translation options compatible with react-i18next patterns.
@@ -38,7 +42,7 @@ export type TranslationFunction = (
  * ```
  */
 export function useTranslation(): TranslationFunction {
-    const { props } = usePage<PageProps>();
+    const { props } = usePage();
     const translations = props.translations || {};
 
     return useMemo(
