@@ -2,8 +2,8 @@ import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { useTranslation } from '@/lib/use-translations';
-import type { BreadcrumbItem } from '@/types';
 import { dashboard } from '@/routes';
+import type { BreadcrumbItem } from '@/types';
 
 export default function Dashboard() {
     const t = useTranslation();
@@ -11,7 +11,7 @@ export default function Dashboard() {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('main.dashboard'),
-            href: dashboard().url,
+            href: dashboard(),
         },
     ];
 
