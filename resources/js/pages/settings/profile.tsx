@@ -1,5 +1,6 @@
 import { Transition } from '@headlessui/react';
 import { Form, Head, Link, usePage } from '@inertiajs/react';
+import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -8,16 +9,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import type { BreadcrumbItem } from '@/types';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import { useTranslation } from '@/lib/use-translations';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
+import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Profile settings',
-        href: edit().url,
+        href: edit(),
     },
 ];
 
@@ -42,7 +42,7 @@ export default function Profile({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t('settings.profile.settingsTitle')} />
 
-            <h1 className="sr-only">Profile Settings</h1>
+            <h1 className="sr-only">Profile settings</h1>
 
             <SettingsLayout>
                 <div className="space-y-6">

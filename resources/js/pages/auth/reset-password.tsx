@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
+import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -48,9 +49,8 @@ export default function ResetPassword({ token, email }: Props) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="password">{t('auth.password')}</Label>
-                            <Input
+                            <PasswordInput
                                 id="password"
-                                type="password"
                                 name="password"
                                 autoComplete="new-password"
                                 className="mt-1 block w-full"
@@ -64,9 +64,8 @@ export default function ResetPassword({ token, email }: Props) {
                             <Label htmlFor="password_confirmation">
                                 {t('auth.confirmPassword')}
                             </Label>
-                            <Input
+                            <PasswordInput
                                 id="password_confirmation"
-                                type="password"
                                 name="password_confirmation"
                                 autoComplete="new-password"
                                 className="mt-1 block w-full"

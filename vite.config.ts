@@ -21,9 +21,6 @@ export default defineConfig(({ command }) => ({
             formVariants: true,
         }),
     ],
-    esbuild: {
-        jsx: 'automatic',
-    },
     server:
         command === 'serve'
             ? {
