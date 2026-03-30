@@ -1,22 +1,13 @@
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import AppLayout from '@/layouts/app-layout';
 import { useTranslation } from '@/lib/use-translations';
 import { dashboard } from '@/routes';
-import type { BreadcrumbItem } from '@/types';
 
 export default function Dashboard() {
     const t = useTranslation();
 
-    const breadcrumbs: BreadcrumbItem[] = [
-        {
-            title: t('main.dashboard'),
-            href: dashboard(),
-        },
-    ];
-
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title={t('main.dashboard')} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
@@ -34,6 +25,15 @@ export default function Dashboard() {
                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+Dashboard.layout = {
+    breadcrumbs: [
+        {
+            title: 'Dashboard',
+            href: dashboard(),
+        },
+    ],
+};

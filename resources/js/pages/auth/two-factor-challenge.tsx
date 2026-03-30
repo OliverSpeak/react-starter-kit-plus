@@ -1,4 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, setLayoutProps } from '@inertiajs/react';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { useMemo, useState } from 'react';
 import InputError from '@/components/input-error';
@@ -10,7 +10,6 @@ import {
     InputOTPSlot,
 } from '@/components/ui/input-otp';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
-import AuthLayout from '@/layouts/auth-layout';
 import { useTranslation } from '@/lib/use-translations';
 import { store } from '@/routes/two-factor/login';
 
@@ -39,6 +38,11 @@ export default function TwoFactorChallenge() {
         };
     }, [showRecoveryInput, t]);
 
+    setLayoutProps({
+        title: authConfigContent.title,
+        description: authConfigContent.description,
+    });
+
     const toggleRecoveryMode = (clearErrors: () => void): void => {
         setShowRecoveryInput(!showRecoveryInput);
         clearErrors();
@@ -46,10 +50,7 @@ export default function TwoFactorChallenge() {
     };
 
     return (
-        <AuthLayout
-            title={authConfigContent.title}
-            description={authConfigContent.description}
-        >
+        <>
             <Head title={t('auth.twoFactorTitle')} />
 
             <div className="space-y-6">
@@ -66,7 +67,9 @@ export default function TwoFactorChallenge() {
                                     <Input
                                         name="recovery_code"
                                         type="text"
-                                        placeholder={t('auth.enterRecoveryCode')}
+                                        placeholder={t(
+                                            'auth.enterRecoveryCode',
+                                        )}
                                         autoFocus={showRecoveryInput}
                                         required
                                     />
@@ -126,6 +129,6 @@ export default function TwoFactorChallenge() {
                     )}
                 </Form>
             </div>
-        </AuthLayout>
+        </>
     );
 }

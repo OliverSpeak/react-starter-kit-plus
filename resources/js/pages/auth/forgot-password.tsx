@@ -6,7 +6,6 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
 import { useTranslation } from '@/lib/use-translations';
@@ -14,10 +13,7 @@ import { useTranslation } from '@/lib/use-translations';
 export default function ForgotPassword({ status }: { status?: string }) {
     const t = useTranslation();
     return (
-        <AuthLayout
-            title={t('auth.forgotPasswordTitle')}
-            description={t('auth.forgotPasswordDescription')}
-        >
+        <>
             <Head title={t('auth.forgotPasswordTitle')} />
 
             {status && (
@@ -31,7 +27,9 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{t('auth.emailAddress')}</Label>
+                                <Label htmlFor="email">
+                                    {t('auth.emailAddress')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -65,6 +63,11 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     <TextLink href={login()}>{t('auth.login')}</TextLink>
                 </div>
             </div>
-        </AuthLayout>
+        </>
     );
 }
+
+ForgotPassword.layout = {
+    title: 'Forgot password',
+    description: 'Enter your email to receive a password reset link',
+};

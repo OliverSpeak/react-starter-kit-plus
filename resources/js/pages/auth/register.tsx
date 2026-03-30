@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import AuthLayout from '@/layouts/auth-layout';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 import { useTranslation } from '@/lib/use-translations';
@@ -14,11 +13,8 @@ import { useTranslation } from '@/lib/use-translations';
 export default function Register() {
     const t = useTranslation();
     return (
-        <AuthLayout
-            title={t('auth.registerTitle')}
-            description={t('auth.registerDescription')}
-        >
-            <Head title={t('auth.register')} />
+        <>
+            <Head title={t('auth.registerTitle')} />
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
@@ -47,7 +43,9 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{t('auth.emailAddress')}</Label>
+                                <Label htmlFor="email">
+                                    {t('auth.emailAddress')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -61,7 +59,9 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">{t('auth.password')}</Label>
+                                <Label htmlFor="password">
+                                    {t('auth.password')}
+                                </Label>
                                 <PasswordInput
                                     id="password"
                                     required
@@ -110,6 +110,11 @@ export default function Register() {
                     </>
                 )}
             </Form>
-        </AuthLayout>
+        </>
     );
 }
+
+Register.layout = {
+    title: 'Create an account',
+    description: 'Enter your details below to create your account',
+};
