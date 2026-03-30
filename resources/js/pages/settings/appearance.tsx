@@ -9,15 +9,9 @@ import type { BreadcrumbItem } from '@/types';
 
 export default function Appearance() {
     const t = useTranslation();
-    const breadcrumbs: BreadcrumbItem[] = [
-        {
-            title: t('settings.appearance.settingsTitle'),
-            href: editAppearance(),
-        },
-    ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title={t('settings.appearance.settingsTitle')} />
 
             <h1 className="sr-only">Appearance settings</h1>
@@ -32,6 +26,15 @@ export default function Appearance() {
                     <AppearanceTabs />
                 </div>
             </SettingsLayout>
-        </AppLayout>
+        </>
     );
 }
+
+Appearance.layout = {
+    breadcrumbs: [
+        {
+            title: 'Appearance settings',
+            href: editAppearance(),
+        },
+    ],
+};
