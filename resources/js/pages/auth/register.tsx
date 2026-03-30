@@ -1,3 +1,4 @@
+import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
@@ -8,7 +9,11 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 
 export default function Register() {
     const t = useTranslation();
@@ -114,7 +119,11 @@ export default function Register() {
     );
 }
 
-Register.layout = {
-    title: 'Create an account',
-    description: 'Enter your details below to create your account',
+Register.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        title: t('auth.registerTitle'),
+        description: t('auth.registerDescription'),
+    };
 };

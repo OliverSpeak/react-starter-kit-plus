@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react';
+import type { PageProps } from '@inertiajs/core';
 import { Form, Head, Link, usePage } from '@inertiajs/react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
@@ -7,7 +8,11 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 
@@ -23,9 +28,11 @@ export default function Profile({
 
     return (
         <>
-            <Head title="Profile settings" />
+            <Head title={t('settings.profile.settingsTitle')} />
 
-            <h1 className="sr-only">Profile settings</h1>
+            <h1 className="sr-only">
+                {t('settings.profile.settingsTitle')}
+            </h1>
 
             <div className="space-y-6">
                 <Heading
@@ -143,11 +150,15 @@ export default function Profile({
     );
 }
 
-Profile.layout = {
-    breadcrumbs: [
-        {
-            title: 'Profile settings',
-            href: edit(),
-        },
-    ],
+Profile.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        breadcrumbs: [
+            {
+                title: t('settings.profile.settingsTitle'),
+                href: edit(),
+            },
+        ],
+    };
 };

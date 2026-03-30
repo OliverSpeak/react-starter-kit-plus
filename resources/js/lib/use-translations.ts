@@ -4,7 +4,9 @@ import { useMemo } from 'react';
 /**
  * Translation object type for nested translation structures.
  */
-type TranslationObject = Record<string, string | TranslationObject>;
+export interface TranslationObject {
+    [key: string]: string | TranslationObject;
+}
 
 /**
  * Translation options compatible with react-i18next patterns.
@@ -24,6 +26,63 @@ export type TranslationFunction = (
     key: string,
     options?: TranslationOptions | Record<string, string | number>,
 ) => string;
+
+/**
+ * Build a translation function from a nested translations object (e.g. for use
+ * outside React components, such as Inertia page `layout` callbacks).
+ */
+export function createTranslator(
+    translations: TranslationObject | undefined | null,
+): TranslationFunction {
+    const root = translations || {};
+
+    return function t(
+        key: string,
+        options?: TranslationOptions | Record<string, string | number>,
+    ): string {
+        if (!key || typeof key !== 'string') {
+            return key;
+        }
+
+        const opts = options || {};
+        const defaultValue =
+            'defaultValue' in opts && typeof opts.defaultValue === 'string'
+                ? opts.defaultValue
+                : undefined;
+        const replacements = { ...opts };
+        delete (replacements as Partial<TranslationOptions>).defaultValue;
+
+        const keys = key.split('.');
+        let value: string | TranslationObject | undefined = root;
+
+        for (const k of keys) {
+            if (value && typeof value === 'object' && k in value) {
+                value = value[k];
+            } else {
+                return defaultValue ?? key;
+            }
+        }
+
+        if (typeof value !== 'string') {
+            return defaultValue ?? key;
+        }
+
+        return Object.entries(replacements).reduce(
+            (str, [placeholder, replacement]) => {
+                if (replacement === undefined) return str;
+                const escapedPlaceholder = placeholder.replace(
+                    /[.*+?^${}()|[\]\\]/g,
+                    '\\$&',
+                );
+                return str.replace(
+                    new RegExp(`:${escapedPlaceholder}`, 'g'),
+                    String(replacement),
+                );
+            },
+            value,
+        );
+    };
+}
 
 /**
  * Hook for accessing translations in React components.
@@ -46,61 +105,7 @@ export function useTranslation(): TranslationFunction {
     const translations = props.translations || {};
 
     return useMemo(
-        () =>
-            function t(
-                key: string,
-                options?: TranslationOptions | Record<string, string | number>,
-            ): string {
-                if (!key || typeof key !== 'string') {
-                    return key;
-                }
-
-                // Normalize options - support both simple object and options object
-                const opts = options || {};
-                const defaultValue =
-                    'defaultValue' in opts &&
-                    typeof opts.defaultValue === 'string'
-                        ? opts.defaultValue
-                        : undefined;
-                const replacements = { ...opts };
-                delete (replacements as Partial<TranslationOptions>)
-                    .defaultValue;
-
-                // Navigate nested translation object using dot notation
-                const keys = key.split('.');
-                let value: string | TranslationObject | undefined =
-                    translations;
-
-                for (const k of keys) {
-                    if (value && typeof value === 'object' && k in value) {
-                        value = value[k];
-                    } else {
-                        // Return defaultValue if provided, otherwise return key
-                        return defaultValue ?? key;
-                    }
-                }
-
-                if (typeof value !== 'string') {
-                    return defaultValue ?? key;
-                }
-
-                // Replace placeholders (e.g., :name, :count) with provided values
-                return Object.entries(replacements).reduce(
-                    (str, [placeholder, replacement]) => {
-                        if (replacement === undefined) return str;
-                        // Escape special regex characters in placeholder name
-                        const escapedPlaceholder = placeholder.replace(
-                            /[.*+?^${}()|[\]\\]/g,
-                            '\\$&',
-                        );
-                        return str.replace(
-                            new RegExp(`:${escapedPlaceholder}`, 'g'),
-                            String(replacement),
-                        );
-                    },
-                    value,
-                );
-            },
+        () => createTranslator(translations as TranslationObject),
         [translations],
     );
 }

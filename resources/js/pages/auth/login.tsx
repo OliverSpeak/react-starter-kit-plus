@@ -1,3 +1,4 @@
+import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
@@ -7,7 +8,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
@@ -123,7 +128,11 @@ export default function Login({
     );
 }
 
-Login.layout = {
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
+Login.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        title: t('auth.loginTitle'),
+        description: t('auth.loginDescription'),
+    };
 };

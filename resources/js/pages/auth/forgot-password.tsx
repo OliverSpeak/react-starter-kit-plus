@@ -1,4 +1,5 @@
 // Components
+import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import InputError from '@/components/input-error';
@@ -8,7 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 
 export default function ForgotPassword({ status }: { status?: string }) {
     const t = useTranslation();
@@ -67,7 +72,11 @@ export default function ForgotPassword({ status }: { status?: string }) {
     );
 }
 
-ForgotPassword.layout = {
-    title: 'Forgot password',
-    description: 'Enter your email to receive a password reset link',
+ForgotPassword.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        title: t('auth.forgotPasswordTitle'),
+        description: t('auth.forgotPasswordDescription'),
+    };
 };

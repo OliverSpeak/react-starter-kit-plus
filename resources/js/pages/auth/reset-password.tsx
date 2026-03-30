@@ -1,3 +1,4 @@
+import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
@@ -6,7 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { update } from '@/routes/password';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 
 type Props = {
     token: string;
@@ -91,7 +96,11 @@ export default function ResetPassword({ token, email }: Props) {
     );
 }
 
-ResetPassword.layout = {
-    title: 'Reset password',
-    description: 'Please enter your new password below',
+ResetPassword.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        title: t('auth.resetPasswordTitle'),
+        description: t('auth.resetPasswordDescription'),
+    };
 };

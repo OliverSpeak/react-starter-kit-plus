@@ -106,7 +106,7 @@ function TwoFactorSetupStep({
                     <div className="relative flex w-full items-center justify-center">
                         <div className="absolute inset-0 top-1/2 h-px w-full bg-border" />
                         <span className="relative bg-card px-2 py-1">
-                            {t('settings.twoFactor.setup.orEnterManually')}
+                            {t('settings.security.twoFactor.setup.orEnterManually')}
                         </span>
                     </div>
 
@@ -124,14 +124,14 @@ function TwoFactorSetupStep({
                                         value={manualSetupKey}
                                         className="h-full w-full bg-background p-3 text-foreground outline-none"
                                         aria-label={t(
-                                            'settings.twoFactor.setup.setupKey',
+                                            'settings.security.twoFactor.setup.setupKey',
                                         )}
                                     />
                                     <button
                                         onClick={() => copy(manualSetupKey)}
                                         className="cursor-pointer border-l border-border px-3 hover:bg-muted"
                                         aria-label={t(
-                                            'settings.twoFactor.setup.copy',
+                                            'settings.security.twoFactor.setup.copy',
                                         )}
                                     >
                                         <IconComponent className="w-4" />
@@ -271,23 +271,23 @@ export default function TwoFactorSetupModal({
     }>(() => {
         if (twoFactorEnabled) {
             return {
-                title: t('settings.twoFactor.setup.enabledTitle'),
-                description: t('settings.twoFactor.setup.enabledDescription'),
+                title: t('settings.security.twoFactor.setup.enabledTitle'),
+                description: t('settings.security.twoFactor.setup.enabledDescription'),
                 buttonText: t('common.close'),
             };
         }
 
         if (showVerificationStep) {
             return {
-                title: t('settings.twoFactor.setup.verifyTitle'),
-                description: t('settings.twoFactor.setup.verifyDescription'),
+                title: t('settings.security.twoFactor.setup.verifyTitle'),
+                description: t('settings.security.twoFactor.setup.verifyDescription'),
                 buttonText: t('common.continue'),
             };
         }
 
         return {
-            title: t('settings.twoFactor.setup.enableTitle'),
-            description: t('settings.twoFactor.setup.enableDescription'),
+            title: t('settings.security.twoFactor.setup.enableTitle'),
+            description: t('settings.security.twoFactor.setup.enableDescription'),
             buttonText: t('common.continue'),
         };
     }, [twoFactorEnabled, showVerificationStep, t]);
