@@ -90,49 +90,50 @@
             "resendVerification": "Click here to resend the verification email.",
             "verificationLinkSent": "A new verification link has been sent to your email address."
         },
-        "password": {
-            "title": "Password",
-            "settingsTitle": "Password settings",
-            "updatePassword": "Update password",
-            "description": "Ensure your account is using a long, random password to stay secure",
-            "currentPassword": "Current password",
-            "newPassword": "New password",
-            "savePassword": "Save password"
-        },
         "appearance": {
             "title": "Appearance",
             "settingsTitle": "Appearance settings",
             "description": "Update your account's appearance settings"
         },
-        "twoFactor": {
-            "title": "Two-Factor Auth",
-            "settingsTitle": "Two-Factor Authentication",
-            "description": "Manage your two-factor authentication settings",
-            "enabled": "Enabled",
-            "disabled": "Disabled",
-            "enabledDescription": "With two-factor authentication enabled, you will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone.",
-            "disabledDescription": "When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.",
-            "disable2FA": "Disable 2FA",
-            "continueSetup": "Continue Setup",
-            "enable2FA": "Enable 2FA",
-            "recoveryCodes": {
-                "title": "2FA Recovery Codes",
-                "description": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
-                "view": "View Recovery Codes",
-                "hide": "Hide Recovery Codes",
-                "regenerate": "Regenerate Codes",
-                "warning": "Each recovery code can be used once to access your account and will be removed after use. If you need more, click Regenerate Codes above."
+        "security": {
+            "title": "Security",
+            "settingsTitle": "Security settings",
+            "password": {
+                "updatePassword": "Update password",
+                "description": "Ensure your account is using a long, random password to stay secure",
+                "currentPassword": "Current password",
+                "newPassword": "New password",
+                "savePassword": "Save password"
             },
-            "setup": {
-                "orEnterManually": "or, enter the code manually",
-                "setupKey": "Setup Key",
-                "copy": "Copy",
-                "enabledTitle": "Two-Factor Authentication Enabled",
-                "enabledDescription": "Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.",
-                "verifyTitle": "Verify Authentication Code",
-                "verifyDescription": "Enter the 6-digit code from your authenticator app",
-                "enableTitle": "Enable Two-Factor Authentication",
-                "enableDescription": "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app"
+            "twoFactor": {
+                "title": "Two-factor authentication",
+                "description": "Manage your two-factor authentication settings",
+                "enabled": "Enabled",
+                "disabled": "Disabled",
+                "enabledDescription": "With two-factor authentication enabled, you will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone.",
+                "disabledDescription": "When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.",
+                "disable2FA": "Disable 2FA",
+                "continueSetup": "Continue setup",
+                "enable2FA": "Enable 2FA",
+                "recoveryCodes": {
+                    "title": "2FA Recovery Codes",
+                    "description": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
+                    "view": "View Recovery Codes",
+                    "hide": "Hide Recovery Codes",
+                    "regenerate": "Regenerate Codes",
+                    "warning": "Each recovery code can be used once to access your account and will be removed after use. If you need more, click Regenerate Codes above."
+                },
+                "setup": {
+                    "orEnterManually": "or, enter the code manually",
+                    "setupKey": "Setup Key",
+                    "copy": "Copy",
+                    "enabledTitle": "Two-Factor Authentication Enabled",
+                    "enabledDescription": "Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.",
+                    "verifyTitle": "Verify Authentication Code",
+                    "verifyDescription": "Enter the 6-digit code from your authenticator app",
+                    "enableTitle": "Enable Two-Factor Authentication",
+                    "enableDescription": "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app"
+                }
             }
         }
     },

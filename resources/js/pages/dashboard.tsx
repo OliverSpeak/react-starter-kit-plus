@@ -1,6 +1,11 @@
+import type { PageProps } from '@inertiajs/core';
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 import { dashboard } from '@/routes';
 
 export default function Dashboard() {
@@ -29,11 +34,15 @@ export default function Dashboard() {
     );
 }
 
-Dashboard.layout = {
-    breadcrumbs: [
-        {
-            title: 'Dashboard',
-            href: dashboard(),
-        },
-    ],
+Dashboard.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        breadcrumbs: [
+            {
+                title: t('main.dashboard'),
+                href: dashboard(),
+            },
+        ],
+    };
 };

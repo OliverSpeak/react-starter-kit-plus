@@ -59,10 +59,10 @@ export default function TwoFactorRecoveryCodes({
             <CardHeader>
                 <CardTitle className="flex gap-3">
                     <LockKeyhole className="size-4" aria-hidden="true" />
-                    {t('settings.twoFactor.recoveryCodes.title')}
+                    {t('settings.security.twoFactor.recoveryCodes.title')}
                 </CardTitle>
                 <CardDescription>
-                    {t('settings.twoFactor.recoveryCodes.description')}
+                    {t('settings.security.twoFactor.recoveryCodes.description')}
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -78,8 +78,8 @@ export default function TwoFactorRecoveryCodes({
                             aria-hidden="true"
                         />
                         {codesAreVisible
-                            ? t('settings.twoFactor.recoveryCodes.hide')
-                            : t('settings.twoFactor.recoveryCodes.view')}
+                            ? t('settings.security.twoFactor.recoveryCodes.hide')
+                            : t('settings.security.twoFactor.recoveryCodes.view')}
                     </Button>
 
                     {canRegenerateCodes && (
@@ -97,7 +97,7 @@ export default function TwoFactorRecoveryCodes({
                                 >
                                     <RefreshCw />{' '}
                                     {t(
-                                        'settings.twoFactor.recoveryCodes.regenerate',
+                                        'settings.security.twoFactor.recoveryCodes.regenerate',
                                     )}
                                 </Button>
                             )}
@@ -152,7 +152,7 @@ export default function TwoFactorRecoveryCodes({
                                 <div className="text-xs text-muted-foreground select-none">
                                     <p id="regenerate-warning">
                                         {t(
-                                            'settings.twoFactor.recoveryCodes.warning',
+                                            'settings.security.twoFactor.recoveryCodes.warning',
                                         )}
                                     </p>
                                 </div>

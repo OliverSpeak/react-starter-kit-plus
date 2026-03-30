@@ -21,7 +21,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
             icon: null,
         },
         {
-            title: 'Security',
+            title: t('settings.security.title'),
             href: editSecurity(),
             icon: null,
         },

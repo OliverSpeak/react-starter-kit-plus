@@ -1,9 +1,14 @@
 // Components
+import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useTranslation } from '@/lib/use-translations';
+import {
+    createTranslator,
+    type TranslationObject,
+    useTranslation,
+} from '@/lib/use-translations';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
@@ -40,8 +45,11 @@ export default function VerifyEmail({ status }: { status?: string }) {
     );
 }
 
-VerifyEmail.layout = {
-    title: 'Verify email',
-    description:
-        'Please verify your email address by clicking on the link we just emailed to you.',
+VerifyEmail.layout = (props: PageProps) => {
+    const t = createTranslator(props.translations as TranslationObject);
+
+    return {
+        title: t('auth.verifyEmailTitle'),
+        description: t('auth.verifyEmailDescription'),
+    };
 };
