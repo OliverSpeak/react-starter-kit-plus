@@ -1,6 +1,6 @@
 import { Transition } from '@headlessui/react';
-import { Form, Head } from '@inertiajs/react';
 import type { PageProps } from '@inertiajs/core';
+import { Form, Head } from '@inertiajs/react';
 import { ShieldCheck } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
@@ -14,9 +14,10 @@ import { Label } from '@/components/ui/label';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
 import { edit } from '@/routes/security';
 import { disable, enable } from '@/routes/two-factor';
 

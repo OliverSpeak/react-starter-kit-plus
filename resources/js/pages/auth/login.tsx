@@ -10,9 +10,10 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
@@ -29,6 +30,7 @@ export default function Login({
     canRegister,
 }: Props) {
     const t = useTranslation();
+
     return (
         <>
             <Head title={t('auth.loginTitle')} />

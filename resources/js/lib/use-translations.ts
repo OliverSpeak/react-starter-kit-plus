@@ -69,11 +69,15 @@ export function createTranslator(
 
         return Object.entries(replacements).reduce(
             (str, [placeholder, replacement]) => {
-                if (replacement === undefined) return str;
+                if (replacement === undefined) {
+return str;
+}
+
                 const escapedPlaceholder = placeholder.replace(
                     /[.*+?^${}()|[\]\\]/g,
                     '\\$&',
                 );
+
                 return str.replace(
                     new RegExp(`:${escapedPlaceholder}`, 'g'),
                     String(replacement),

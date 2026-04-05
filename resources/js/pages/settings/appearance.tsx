@@ -4,9 +4,10 @@ import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
 import { edit as editAppearance } from '@/routes/appearance';
 
 export default function Appearance() {

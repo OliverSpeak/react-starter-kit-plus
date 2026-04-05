@@ -1,3 +1,7 @@
+import { router, usePage } from '@inertiajs/react';
+import { Check, Globe } from 'lucide-react';
+import {  useMemo, useState } from 'react';
+import type {ReactNode} from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -10,9 +14,6 @@ import {
 import { useTranslation } from '@/lib/use-translations';
 import { cn } from '@/lib/utils';
 import { update } from '@/routes/locale';
-import { router, usePage } from '@inertiajs/react';
-import { Check, Globe } from 'lucide-react';
-import { type ReactNode, useMemo, useState } from 'react';
 
 interface LanguageSwitcherProps {
     children?: ReactNode;
@@ -47,7 +48,10 @@ export function LanguageSwitcher({
     };
 
     const renderTrigger = () => {
-        if (children) return children;
+        if (children) {
+return children;
+}
+
         return (
             <Button
                 variant="ghost"
@@ -75,6 +79,7 @@ export function LanguageSwitcher({
                 <div className="grid gap-2 py-4">
                     {locales.map(([code, info]) => {
                         const isActive = currentLocale === code;
+
                         return (
                             <button
                                 key={code}
