@@ -106,10 +106,9 @@ return str;
  */
 export function useTranslation(): TranslationFunction {
     const { props } = usePage();
-    const translations = props.translations || {};
 
     return useMemo(
-        () => createTranslator(translations as TranslationObject),
-        [translations],
+        () => createTranslator((props.translations || {}) as TranslationObject),
+        [props.translations],
     );
 }

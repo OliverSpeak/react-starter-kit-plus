@@ -1,7 +1,7 @@
 import { router, usePage } from '@inertiajs/react';
 import { Check, Globe } from 'lucide-react';
-import {  useMemo, useState } from 'react';
-import type {ReactNode} from 'react';
+import { useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -27,12 +27,11 @@ export function LanguageSwitcher({
     const t = useTranslation();
     const { props } = usePage();
     const currentLocale = props.currentLocale || 'en';
-    const supportedLocales = props.supportedLocales || {};
     const [open, setOpen] = useState(false);
 
     const locales = useMemo(
-        () => Object.entries(supportedLocales),
-        [supportedLocales],
+        () => Object.entries(props.supportedLocales || {}),
+        [props.supportedLocales],
     );
 
     const handleLocaleChange = (locale: string) => {
@@ -49,8 +48,8 @@ export function LanguageSwitcher({
 
     const renderTrigger = () => {
         if (children) {
-return children;
-}
+            return children;
+        }
 
         return (
             <Button
