@@ -2,12 +2,8 @@ import type { PageProps } from '@inertiajs/core';
 import { Head } from '@inertiajs/react';
 import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
-import {
-    createTranslator,
-    
-    useTranslation
-} from '@/lib/use-translations';
-import type {TranslationObject} from '@/lib/use-translations';
+import { createTranslator, useTranslation } from '@/lib/use-translations';
+import type { TranslationObject } from '@/lib/use-translations';
 import { edit as editAppearance } from '@/routes/appearance';
 
 export default function Appearance() {

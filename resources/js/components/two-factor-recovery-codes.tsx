@@ -78,8 +78,12 @@ export default function TwoFactorRecoveryCodes({
                             aria-hidden="true"
                         />
                         {codesAreVisible
-                            ? t('settings.security.twoFactor.recoveryCodes.hide')
-                            : t('settings.security.twoFactor.recoveryCodes.view')}
+                            ? t(
+                                  'settings.security.twoFactor.recoveryCodes.hide',
+                              )
+                            : t(
+                                  'settings.security.twoFactor.recoveryCodes.view',
+                              )}
                     </Button>
 
                     {canRegenerateCodes && (

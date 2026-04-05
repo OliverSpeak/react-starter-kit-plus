@@ -106,7 +106,9 @@ function TwoFactorSetupStep({
                     <div className="relative flex w-full items-center justify-center">
                         <div className="absolute inset-0 top-1/2 h-px w-full bg-border" />
                         <span className="relative bg-card px-2 py-1">
-                            {t('settings.security.twoFactor.setup.orEnterManually')}
+                            {t(
+                                'settings.security.twoFactor.setup.orEnterManually',
+                            )}
                         </span>
                     </div>
 
@@ -272,7 +274,9 @@ export default function TwoFactorSetupModal({
         if (twoFactorEnabled) {
             return {
                 title: t('settings.security.twoFactor.setup.enabledTitle'),
-                description: t('settings.security.twoFactor.setup.enabledDescription'),
+                description: t(
+                    'settings.security.twoFactor.setup.enabledDescription',
+                ),
                 buttonText: t('common.close'),
             };
         }
@@ -280,14 +284,18 @@ export default function TwoFactorSetupModal({
         if (showVerificationStep) {
             return {
                 title: t('settings.security.twoFactor.setup.verifyTitle'),
-                description: t('settings.security.twoFactor.setup.verifyDescription'),
+                description: t(
+                    'settings.security.twoFactor.setup.verifyDescription',
+                ),
                 buttonText: t('common.continue'),
             };
         }
 
         return {
             title: t('settings.security.twoFactor.setup.enableTitle'),
-            description: t('settings.security.twoFactor.setup.enableDescription'),
+            description: t(
+                'settings.security.twoFactor.setup.enableDescription',
+            ),
             buttonText: t('common.continue'),
         };
     }, [twoFactorEnabled, showVerificationStep, t]);

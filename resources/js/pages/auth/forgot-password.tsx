@@ -7,12 +7,8 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    createTranslator,
-    
-    useTranslation
-} from '@/lib/use-translations';
-import type {TranslationObject} from '@/lib/use-translations';
+import { createTranslator, useTranslation } from '@/lib/use-translations';
+import type { TranslationObject } from '@/lib/use-translations';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
 

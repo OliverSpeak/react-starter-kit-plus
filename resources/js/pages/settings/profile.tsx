@@ -8,12 +8,8 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    createTranslator,
-    
-    useTranslation
-} from '@/lib/use-translations';
-import type {TranslationObject} from '@/lib/use-translations';
+import { createTranslator, useTranslation } from '@/lib/use-translations';
+import type { TranslationObject } from '@/lib/use-translations';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 
@@ -31,9 +27,7 @@ export default function Profile({
         <>
             <Head title={t('settings.profile.settingsTitle')} />
 
-            <h1 className="sr-only">
-                {t('settings.profile.settingsTitle')}
-            </h1>
+            <h1 className="sr-only">{t('settings.profile.settingsTitle')}</h1>
 
             <div className="space-y-6">
                 <Heading
