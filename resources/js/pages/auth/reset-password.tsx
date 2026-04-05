@@ -6,12 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { update } from '@/routes/password';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
+import { update } from '@/routes/password';
 
 type Props = {
     token: string;
@@ -20,6 +21,7 @@ type Props = {
 
 export default function ResetPassword({ token, email }: Props) {
     const t = useTranslation();
+
     return (
         <>
             <Head title={t('auth.resetPasswordTitle')} />

@@ -10,9 +10,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 

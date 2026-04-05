@@ -6,14 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
 export default function VerifyEmail({ status }: { status?: string }) {
     const t = useTranslation();
+
     return (
         <>
             <Head title={t('auth.emailVerification')} />

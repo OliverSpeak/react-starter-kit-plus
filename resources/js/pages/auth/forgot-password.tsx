@@ -7,16 +7,18 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { login } from '@/routes';
-import { email } from '@/routes/password';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
+import { login } from '@/routes';
+import { email } from '@/routes/password';
 
 export default function ForgotPassword({ status }: { status?: string }) {
     const t = useTranslation();
+
     return (
         <>
             <Head title={t('auth.forgotPasswordTitle')} />

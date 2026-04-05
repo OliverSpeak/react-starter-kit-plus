@@ -7,13 +7,15 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import {
     createTranslator,
-    type TranslationObject,
-    useTranslation,
+    
+    useTranslation
 } from '@/lib/use-translations';
+import type {TranslationObject} from '@/lib/use-translations';
 import { store } from '@/routes/password/confirm';
 
 export default function ConfirmPassword() {
     const t = useTranslation();
+
     return (
         <>
             <Head title={t('auth.confirmPasswordTitle')} />
