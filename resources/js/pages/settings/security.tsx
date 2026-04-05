@@ -12,12 +12,8 @@ import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
-import {
-    createTranslator,
-    
-    useTranslation
-} from '@/lib/use-translations';
-import type {TranslationObject} from '@/lib/use-translations';
+import { createTranslator, useTranslation } from '@/lib/use-translations';
+import type { TranslationObject } from '@/lib/use-translations';
 import { edit } from '@/routes/security';
 import { disable, enable } from '@/routes/two-factor';
 
@@ -97,7 +93,9 @@ export default function Security({
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="current_password">
-                                    {t('settings.security.password.currentPassword')}
+                                    {t(
+                                        'settings.security.password.currentPassword',
+                                    )}
                                 </Label>
 
                                 <PasswordInput
@@ -116,7 +114,9 @@ export default function Security({
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password">
-                                    {t('settings.security.password.newPassword')}
+                                    {t(
+                                        'settings.security.password.newPassword',
+                                    )}
                                 </Label>
 
                                 <PasswordInput
@@ -156,7 +156,9 @@ export default function Security({
                                     disabled={processing}
                                     data-test="update-password-button"
                                 >
-                                    {t('settings.security.password.savePassword')}
+                                    {t(
+                                        'settings.security.password.savePassword',
+                                    )}
                                 </Button>
 
                                 <Transition

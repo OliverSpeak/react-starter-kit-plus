@@ -1,12 +1,8 @@
 import type { PageProps } from '@inertiajs/core';
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import {
-    createTranslator,
-    
-    useTranslation
-} from '@/lib/use-translations';
-import type {TranslationObject} from '@/lib/use-translations';
+import { createTranslator, useTranslation } from '@/lib/use-translations';
+import type { TranslationObject } from '@/lib/use-translations';
 import { dashboard } from '@/routes';
 
 export default function Dashboard() {

@@ -70,8 +70,8 @@ export function createTranslator(
         return Object.entries(replacements).reduce(
             (str, [placeholder, replacement]) => {
                 if (replacement === undefined) {
-return str;
-}
+                    return str;
+                }
 
                 const escapedPlaceholder = placeholder.replace(
                     /[.*+?^${}()|[\]\\]/g,
