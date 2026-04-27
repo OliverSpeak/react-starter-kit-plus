@@ -1,4 +1,3 @@
-import { Transition } from '@headlessui/react';
 import type { PageProps } from '@inertiajs/core';
 import { Form, Head, Link, usePage } from '@inertiajs/react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
@@ -43,7 +42,7 @@ export default function Profile({
                     }}
                     className="space-y-6"
                 >
-                    {({ processing, recentlySuccessful, errors }) => (
+                    {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="name">{t('auth.name')}</Label>
@@ -122,18 +121,6 @@ export default function Profile({
                                 >
                                     {t('common.save')}
                                 </Button>
-
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className="text-sm text-neutral-600">
-                                        {t('common.saved')}
-                                    </p>
-                                </Transition>
                             </div>
                         </>
                     )}

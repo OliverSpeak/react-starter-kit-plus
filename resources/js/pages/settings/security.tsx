@@ -1,4 +1,3 @@
-import { Transition } from '@headlessui/react';
 import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import { ShieldCheck } from 'lucide-react';
@@ -89,7 +88,7 @@ export default function Security({
                     }}
                     className="space-y-6"
                 >
-                    {({ errors, processing, recentlySuccessful }) => (
+                    {({ errors, processing }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="current_password">
@@ -160,18 +159,6 @@ export default function Security({
                                         'settings.security.password.savePassword',
                                     )}
                                 </Button>
-
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className="text-sm text-neutral-600">
-                                        {t('common.saved')}
-                                    </p>
-                                </Transition>
                             </div>
                         </>
                     )}
