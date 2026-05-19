@@ -1,6 +1,8 @@
-import { Transition } from '@headlessui/react';
 import type { PageProps } from '@inertiajs/core';
-import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
+/* @chisel-email-verification */
+import { Link } from '@inertiajs/react';
+/* @end-chisel-email-verification */
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
@@ -11,15 +13,21 @@ import { Label } from '@/components/ui/label';
 import { createTranslator, useTranslation } from '@/lib/use-translations';
 import type { TranslationObject } from '@/lib/use-translations';
 import { edit } from '@/routes/profile';
+/* @chisel-email-verification */
 import { send } from '@/routes/verification';
+/* @end-chisel-email-verification */
 
-export default function Profile({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-}) {
+export default function Profile(
+    /* @chisel-email-verification */
+    {
+        mustVerifyEmail,
+        status,
+    }: {
+        mustVerifyEmail: boolean;
+        status?: string;
+    },
+    /* @end-chisel-email-verification */
+) {
     const t = useTranslation();
     const { auth } = usePage().props;
 
@@ -43,7 +51,7 @@ export default function Profile({
                     }}
                     className="space-y-6"
                 >
-                    {({ processing, recentlySuccessful, errors }) => (
+                    {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="name">{t('auth.name')}</Label>
@@ -86,6 +94,7 @@ export default function Profile({
                                 />
                             </div>
 
+                            {/* @chisel-email-verification */}
                             {mustVerifyEmail &&
                                 auth.user.email_verified_at === null && (
                                     <div>
@@ -114,6 +123,7 @@ export default function Profile({
                                         )}
                                     </div>
                                 )}
+                            {/* @end-chisel-email-verification */}
 
                             <div className="flex items-center gap-4">
                                 <Button
@@ -122,18 +132,6 @@ export default function Profile({
                                 >
                                     {t('common.save')}
                                 </Button>
-
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className="text-sm text-neutral-600">
-                                        {t('common.saved')}
-                                    </p>
-                                </Transition>
                             </div>
                         </>
                     )}

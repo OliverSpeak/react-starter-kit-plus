@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
-Route::inertia('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::inertia('/', 'welcome')->name('home');
 
 Route::put('locale', [LocaleController::class, 'update'])->name('locale.update');
 
