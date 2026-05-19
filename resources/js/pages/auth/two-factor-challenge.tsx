@@ -87,6 +87,7 @@ export default function TwoFactorChallenge() {
                                             onChange={(value) => setCode(value)}
                                             disabled={processing}
                                             pattern={REGEXP_ONLY_DIGITS}
+                                            autoFocus
                                         >
                                             <InputOTPGroup>
                                                 {Array.from(

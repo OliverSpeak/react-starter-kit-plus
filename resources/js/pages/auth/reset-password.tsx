@@ -13,9 +13,10 @@ import { update } from '@/routes/password';
 type Props = {
     token: string;
     email: string;
+    passwordRules: string;
 };
 
-export default function ResetPassword({ token, email }: Props) {
+export default function ResetPassword({ token, email, passwordRules }: Props) {
     const t = useTranslation();
 
     return (
@@ -57,6 +58,7 @@ export default function ResetPassword({ token, email }: Props) {
                                 className="mt-1 block w-full"
                                 autoFocus
                                 placeholder={t('auth.password')}
+                                passwordrules={passwordRules}
                             />
                             <InputError message={errors.password} />
                         </div>
@@ -71,6 +73,7 @@ export default function ResetPassword({ token, email }: Props) {
                                 autoComplete="new-password"
                                 className="mt-1 block w-full"
                                 placeholder={t('auth.confirmPassword')}
+                                passwordrules={passwordRules}
                             />
                             <InputError
                                 message={errors.password_confirmation}

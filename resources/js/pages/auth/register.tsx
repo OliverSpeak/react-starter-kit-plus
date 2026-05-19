@@ -12,7 +12,11 @@ import type { TranslationObject } from '@/lib/use-translations';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
-export default function Register() {
+type Props = {
+    passwordRules: string;
+};
+
+export default function Register({ passwordRules }: Props) {
     const t = useTranslation();
 
     return (
@@ -72,6 +76,7 @@ export default function Register() {
                                     autoComplete="new-password"
                                     name="password"
                                     placeholder={t('auth.password')}
+                                    passwordrules={passwordRules}
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -87,6 +92,7 @@ export default function Register() {
                                     autoComplete="new-password"
                                     name="password_confirmation"
                                     placeholder={t('auth.confirmPassword')}
+                                    passwordrules={passwordRules}
                                 />
                                 <InputError
                                     message={errors.password_confirmation}
