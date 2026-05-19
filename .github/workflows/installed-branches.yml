@@ -26,23 +26,37 @@ concurrency:
 jobs:
   chisel:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - source: main
-            target: main-installed
-          - source: main-i18n
-            target: main-i18n-installed
-    if: >-
-      (github.event_name == 'workflow_dispatch' && matrix.source == inputs.source_branch) ||
-      (github.event_name == 'push' && matrix.source == github.ref_name)
 
     steps:
+      - name: Resolve branches
+        id: branches
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            SOURCE="${{ inputs.source_branch }}"
+          else
+            SOURCE="${{ github.ref_name }}"
+          fi
+
+          case "$SOURCE" in
+            main)
+              TARGET="main-installed"
+              ;;
+            main-i18n)
+              TARGET="main-i18n-installed"
+              ;;
+            *)
+              echo "Unsupported source branch: ${SOURCE}"
+              exit 1
+              ;;
+          esac
+
+          echo "source=${SOURCE}" >> "${GITHUB_OUTPUT}"
+          echo "target=${TARGET}" >> "${GITHUB_OUTPUT}"
+
       - name: Checkout source branch
         uses: actions/checkout@v6
         with:
-          ref: ${{ matrix.source }}
+          ref: ${{ steps.branches.outputs.source }}
           fetch-depth: 0
 
       - name: Setup PHP
@@ -77,9 +91,9 @@ jobs:
 
       - name: Commit and push installed branch
         env:
-          SOURCE_BRANCH: ${{ matrix.source }}
+          SOURCE_BRANCH: ${{ steps.branches.outputs.source }}
           SOURCE_SHA: ${{ github.sha }}
-          TARGET_BRANCH: ${{ matrix.target }}
+          TARGET_BRANCH: ${{ steps.branches.outputs.target }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
