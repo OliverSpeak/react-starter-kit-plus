@@ -1,0 +1,98 @@
+name: installed branches
+# This workflow takes the source branches 'main' and 'main-i18n' and creates installed branches based on the changes applied by Chisel, Pint, etc. All features are installed by default.
+on:
+  push:
+    branches:
+      - main
+      - main-i18n
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: Source branch to chisel
+        required: true
+        default: main
+        type: choice
+        options:
+          - main
+          - main-i18n
+
+permissions:
+  contents: write
+
+concurrency:
+  group: installed-branches-${{ github.event_name == 'workflow_dispatch' && inputs.source_branch || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  chisel:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - source: main
+            target: main-installed
+          - source: main-i18n
+            target: main-i18n-installed
+    if: >-
+      (github.event_name == 'workflow_dispatch' && matrix.source == inputs.source_branch) ||
+      (github.event_name == 'push' && matrix.source == github.ref_name)
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ matrix.source }}
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Prepare application
+        run: |
+          cp .env.example .env
+          php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Generate application key
+        run: php artisan key:generate --ansi --force
+
+      - name: Apply default feature installation
+        run: php artisan install:features --no-interaction
+
+      - name: Commit and push installed branch
+        env:
+          SOURCE_BRANCH: ${{ matrix.source }}
+          SOURCE_SHA: ${{ github.sha }}
+          TARGET_BRANCH: ${{ matrix.target }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit for ${TARGET_BRANCH}."
+            exit 0
+          fi
+
+          git commit \
+            -m "chore: apply default feature installation" \
+            -m "Regenerated from ${SOURCE_BRANCH}@${SOURCE_SHA}."
+
+          git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
