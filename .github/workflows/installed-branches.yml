@@ -25,6 +25,7 @@ concurrency:
 
 env:
   CHISEL_ALL_FEATURES_ANSWERS: '{"auth_features":["email-verification","registration","2fa","passkeys","password-confirmation"]}'
+  LARAVEL_INSTALLER_DEFER_HOOKS: 'true'
 
 jobs:
   chisel:
