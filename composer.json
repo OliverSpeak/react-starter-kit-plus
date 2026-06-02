@@ -79,7 +79,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php -r \"echo \\\"\\033[31mReact Starter Kit Plus has suppressed 'php artisan install:features --ansi'. Please run it manually.\\033[0m\\\".PHP_EOL;\"",
+            "@php artisan install:features --ansi",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
@@ -99,7 +99,7 @@
             "dont-discover": [],
             "installer": {
                 "post-create-project": [
-                    "@php -r \"echo \\\"\\033[31mReact Starter Kit Plus has suppressed 'php artisan install:features --ansi'. Please run it manually.\\033[0m\\\".PHP_EOL;\""
+                    "@php artisan install:features --ansi"
                 ]
             }
         }
