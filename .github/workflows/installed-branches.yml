@@ -1,0 +1,118 @@
+name: installed branches
+# Transforms main and main-i18n into main-build and main-i18n-build via Chisel (all features), Rector, and Pint.
+on:
+  push:
+    branches:
+      - main
+      - main-i18n
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: Source branch to chisel
+        required: true
+        default: main
+        type: choice
+        options:
+          - main
+          - main-i18n
+
+permissions:
+  contents: write
+
+concurrency:
+  group: installed-branches-${{ github.event_name == 'workflow_dispatch' && inputs.source_branch || github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  CHISEL_ALL_FEATURES_ANSWERS: '{"auth_features":["email-verification","registration","2fa","passkeys","password-confirmation"]}'
+  LARAVEL_INSTALLER_DEFER_HOOKS: 'true'
+
+jobs:
+  chisel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Resolve branches
+        id: branches
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            SOURCE="${{ inputs.source_branch }}"
+          else
+            SOURCE="${{ github.ref_name }}"
+          fi
+
+          case "$SOURCE" in
+            main)
+              TARGET="main-build"
+              ;;
+            main-i18n)
+              TARGET="main-i18n-build"
+              ;;
+            *)
+              echo "Unsupported source branch: ${SOURCE}"
+              exit 1
+              ;;
+          esac
+
+          echo "source=${SOURCE}" >> "${GITHUB_OUTPUT}"
+          echo "target=${TARGET}" >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout source branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.branches.outputs.source }}
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Prepare application
+        run: |
+          cp .env.example .env
+          php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Generate application key
+        run: php artisan key:generate --ansi --force
+
+      - name: Run Chisel with all features
+        run: php artisan install:features --no-interaction --answers="$CHISEL_ALL_FEATURES_ANSWERS"
+
+      - name: Run Rector
+        run: vendor/bin/rector process --ansi
+
+      - name: Run Pint
+        run: composer lint
+
+      - name: Commit and push installed branch
+        env:
+          SOURCE_BRANCH: ${{ steps.branches.outputs.source }}
+          SOURCE_SHA: ${{ github.sha }}
+          TARGET_BRANCH: ${{ steps.branches.outputs.target }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit for ${TARGET_BRANCH}."
+            exit 0
+          fi
+
+          git commit \
+            -m "chore: build installed branch" \
+            -m "Chisel (all features), Rector, and Pint applied to ${SOURCE_BRANCH}@${SOURCE_SHA}."
+
+          git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
