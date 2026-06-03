@@ -105,6 +105,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # Build branches are consumer-facing; keep the workflow on source branches only.
+          git rm -f .github/workflows/installed-branches.yml
+
           git add -A
 
           if git diff --staged --quiet; then
