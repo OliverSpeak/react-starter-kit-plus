@@ -1,5 +1,6 @@
 name: installed branches
 # Transforms main and main-i18n into main-build and main-i18n-build via Chisel (all features), Rector, and Pint.
+# Each run appends a commit on the build branch (preserving history for use as an upstream).
 on:
   push:
     branches:
@@ -115,4 +116,24 @@ jobs:
             -m "chore: build installed branch" \
             -m "Chisel (all features), Rector, and Pint applied to ${SOURCE_BRANCH}@${SOURCE_SHA}."
 
-          git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
+          BUILD_COMMIT="$(git rev-parse HEAD)"
+
+          git fetch origin "${TARGET_BRANCH}" || true
+
+          if git show-ref --verify --quiet "refs/remotes/origin/${TARGET_BRANCH}"; then
+            git checkout -B "${TARGET_BRANCH}" "origin/${TARGET_BRANCH}"
+            git read-tree -u --reset "${BUILD_COMMIT}"
+
+            if git diff --quiet HEAD; then
+              echo "${TARGET_BRANCH} is already up to date with ${SOURCE_BRANCH}@${SOURCE_SHA}."
+              exit 0
+            fi
+
+            git commit \
+              -m "chore: build installed branch" \
+              -m "Chisel (all features), Rector, and Pint applied to ${SOURCE_BRANCH}@${SOURCE_SHA}."
+
+            git push origin "${TARGET_BRANCH}"
+          else
+            git push origin "${BUILD_COMMIT}:${TARGET_BRANCH}"
+          fi
