@@ -1,6 +1,7 @@
 import type { PageProps } from '@inertiajs/core';
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
+import PasskeyVerify from '@/components/passkey-verify';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -10,14 +11,9 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { createTranslator, useTranslation } from '@/lib/use-translations';
 import type { TranslationObject } from '@/lib/use-translations';
-/* @chisel-registration */
 import { register } from '@/routes';
-/* @end-chisel-registration */
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-/* @chisel-passkeys */
-import PasskeyVerify from '@/components/passkey-verify';
-/* @end-chisel-passkeys */
 
 type Props = {
     status?: string;
@@ -26,13 +22,12 @@ type Props = {
 
 export default function Login({ status, canResetPassword }: Props) {
     const t = useTranslation();
+
     return (
         <>
             <Head title={t('auth.loginTitle')} />
 
-            {/* @chisel-passkeys */}
             <PasskeyVerify />
-            {/* @end-chisel-passkeys */}
 
             <Form
                 {...store.form()}
@@ -108,14 +103,12 @@ export default function Login({ status, canResetPassword }: Props) {
                             </Button>
                         </div>
 
-                        {/* @chisel-registration */}
                         <div className="text-center text-sm text-muted-foreground">
                             {t('auth.noAccount')}{' '}
                             <TextLink href={register()} tabIndex={5}>
                                 {t('auth.signUp')}
                             </TextLink>
                         </div>
-                        {/* @end-chisel-registration */}
                     </>
                 )}
             </Form>

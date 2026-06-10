@@ -4,25 +4,21 @@ import { useRef } from 'react';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import type { Props as ManagePasskeysProps } from '@/components/manage-passkeys';
+import ManagePasskeys from '@/components/manage-passkeys';
+import type { Props as ManageTwoFactorProps } from '@/components/manage-two-factor';
+import ManageTwoFactor from '@/components/manage-two-factor';
 import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { createTranslator, useTranslation } from '@/lib/use-translations';
 import type { TranslationObject } from '@/lib/use-translations';
 import { edit } from '@/routes/security';
-/* @chisel-passkeys */
-import type { Props as ManagePasskeysProps } from '@/components/manage-passkeys';
-import ManagePasskeys from '@/components/manage-passkeys';
-/* @end-chisel-passkeys */
-/* @chisel-2fa */
-import type { Props as ManageTwoFactorProps } from '@/components/manage-two-factor';
-import ManageTwoFactor from '@/components/manage-two-factor';
-/* @end-chisel-2fa */
 
 type Props = {
     passwordRules: string;
-} /* @chisel-passkeys */ & ManagePasskeysProps /* @end-chisel-passkeys */ /* @chisel-2fa */ &
-    ManageTwoFactorProps /* @end-chisel-2fa */;
+} & ManagePasskeysProps &
+    ManageTwoFactorProps;
 
 export default function Security(props: Props) {
     const t = useTranslation();
@@ -143,20 +139,16 @@ export default function Security(props: Props) {
                 </Form>
             </div>
 
-            {/* @chisel-2fa */}
             <ManageTwoFactor
                 canManageTwoFactor={props.canManageTwoFactor}
                 requiresConfirmation={props.requiresConfirmation}
                 twoFactorEnabled={props.twoFactorEnabled}
             />
-            {/* @end-chisel-2fa */}
 
-            {/* @chisel-passkeys */}
             <ManagePasskeys
                 canManagePasskeys={props.canManagePasskeys}
                 passkeys={props.passkeys}
             />
-            {/* @end-chisel-passkeys */}
         </>
     );
 }

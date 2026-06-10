@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
+use Override;
 use Throwable;
 
 final class HandleInertiaRequests extends Middleware
@@ -25,6 +26,7 @@ final class HandleInertiaRequests extends Middleware
      *
      * @see https://inertiajs.com/asset-versioning
      */
+    #[Override]
     public function version(Request $request): ?string
     {
         return parent::version($request);
@@ -37,6 +39,7 @@ final class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
+    #[Override]
     public function share(Request $request): array
     {
         return [
@@ -48,7 +51,7 @@ final class HandleInertiaRequests extends Middleware
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'currentLocale' => App::currentLocale(),
             'supportedLocales' => config('locale.supported', []),
-            'translations' => fn () => $this->loadTranslations(App::currentLocale()),
+            'translations' => fn (): array => $this->loadTranslations(App::currentLocale()),
         ];
     }
 
