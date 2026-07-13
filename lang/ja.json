@@ -48,12 +48,12 @@
         "forgotPasswordDescription": "パスワードリセットリンクを受け取るためにメールアドレスを入力してください",
         "emailResetLink": "パスワードリセットリンクをメール送信",
         "returnToLogin": "または、",
-        "verifyEmailTitle": "メールアドレスを確認",
+        "verifyEmailTitle": "メールアドレス確認",
         "verifyEmailDescription": "メールでお送りしたリンクをクリックしてメールアドレスを確認してください。",
         "emailVerification": "メールアドレス確認",
         "verificationLinkSent": "登録時に提供したメールアドレスに新しい確認リンクを送信しました。",
         "resendVerificationEmail": "確認メールを再送信",
-        "confirmPasswordTitle": "パスワードを確認",
+        "confirmPasswordTitle": "パスワード確認",
         "confirmPasswordDescription": "これはアプリケーションの安全な領域です。続行する前にパスワードを確認してください。",
         "resetPasswordTitle": "パスワードをリセット",
         "resetPasswordDescription": "以下に新しいパスワードを入力してください",
@@ -84,7 +84,7 @@
         "profile": {
             "title": "プロフィール",
             "settingsTitle": "プロフィール設定",
-            "profileInformation": "プロフィール情報",
+            "profileInformation": "プロフィール",
             "description": "名前とメールアドレスを更新",
             "emailUnverified": "メールアドレスが確認されていません。",
             "resendVerification": "ここをクリックして確認メールを再送信してください。",
@@ -93,7 +93,7 @@
         "appearance": {
             "title": "外観",
             "settingsTitle": "外観設定",
-            "description": "アカウントの外観設定を更新"
+            "description": "アカウントの外観設定を更新してください"
         },
         "security": {
             "title": "セキュリティ",
@@ -103,7 +103,7 @@
                 "description": "アカウントが長くランダムなパスワードを使用していることを確認して、セキュリティを保つ",
                 "currentPassword": "現在のパスワード",
                 "newPassword": "新しいパスワード",
-                "savePassword": "パスワードを保存"
+                "savePassword": "保存"
             },
             "twoFactor": {
                 "title": "二要素認証",

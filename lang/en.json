@@ -33,7 +33,7 @@
         "loginDescription": "Enter your email and password below to log in",
         "emailAddress": "Email address",
         "password": "Password",
-        "forgotPassword": "Forgot password?",
+        "forgotPassword": "Forgot your password?",
         "rememberMe": "Remember me",
         "noAccount": "Don't have an account?",
         "signUp": "Sign up",
@@ -48,12 +48,12 @@
         "forgotPasswordDescription": "Enter your email to receive a password reset link",
         "emailResetLink": "Email password reset link",
         "returnToLogin": "Or, return to",
-        "verifyEmailTitle": "Verify email",
+        "verifyEmailTitle": "Email verification",
         "verifyEmailDescription": "Please verify your email address by clicking on the link we just emailed to you.",
         "emailVerification": "Email verification",
         "verificationLinkSent": "A new verification link has been sent to the email address you provided during registration.",
         "resendVerificationEmail": "Resend verification email",
-        "confirmPasswordTitle": "Confirm your password",
+        "confirmPasswordTitle": "Confirm password",
         "confirmPasswordDescription": "This is a secure area of the application. Please confirm your password before continuing.",
         "resetPasswordTitle": "Reset password",
         "resetPasswordDescription": "Please enter your new password below",
@@ -84,16 +84,16 @@
         "profile": {
             "title": "Profile settings",
             "settingsTitle": "Profile settings",
-            "profileInformation": "Profile information",
+            "profileInformation": "Profile",
             "description": "Update your name and email address",
             "emailUnverified": "Your email address is unverified.",
-            "resendVerification": "Click here to resend the verification email.",
+            "resendVerification": "Click here to re-send the verification email.",
             "verificationLinkSent": "A new verification link has been sent to your email address."
         },
         "appearance": {
             "title": "Appearance",
             "settingsTitle": "Appearance settings",
-            "description": "Update your account's appearance settings"
+            "description": "Update the appearance settings for your account"
         },
         "security": {
             "title": "Security",
@@ -103,7 +103,7 @@
                 "description": "Ensure your account is using a long, random password to stay secure",
                 "currentPassword": "Current password",
                 "newPassword": "New password",
-                "savePassword": "Save password"
+                "savePassword": "Save"
             },
             "twoFactor": {
                 "title": "Two-factor authentication",

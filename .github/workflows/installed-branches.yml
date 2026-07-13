@@ -1,5 +1,5 @@
 name: installed branches
-# This workflow takes the source branches 'main' and 'main-i18n' and creates installed branches based on the changes applied by Chisel, Pint, etc. All features are installed by default.
+# Transforms main and main-i18n into main-build and main-i18n-build via Chisel (all features), Rector, and Pint.
 on:
   push:
     branches:
@@ -23,6 +23,10 @@ concurrency:
   group: installed-branches-${{ github.event_name == 'workflow_dispatch' && inputs.source_branch || github.ref_name }}
   cancel-in-progress: true
 
+env:
+  CHISEL_ALL_FEATURES_ANSWERS: '{"auth_features":["email-verification","registration","2fa","passkeys","password-confirmation"]}'
+  LARAVEL_INSTALLER_DEFER_HOOKS: 'true'
+
 jobs:
   chisel:
     runs-on: ubuntu-latest
@@ -39,10 +43,10 @@ jobs:
 
           case "$SOURCE" in
             main)
-              TARGET="main-installed"
+              TARGET="main-build"
               ;;
             main-i18n)
-              TARGET="main-i18n-installed"
+              TARGET="main-i18n-build"
               ;;
             *)
               echo "Unsupported source branch: ${SOURCE}"
@@ -70,7 +74,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: npm
 
       - name: Prepare application
         run: |
@@ -80,14 +83,17 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Install Node dependencies
-        run: npm ci
-
       - name: Generate application key
         run: php artisan key:generate --ansi --force
 
-      - name: Apply default feature installation
-        run: php artisan install:features --no-interaction
+      - name: Run Chisel with all features
+        run: php artisan install:features --no-interaction --answers="$CHISEL_ALL_FEATURES_ANSWERS"
+
+      - name: Run Rector
+        run: vendor/bin/rector process --ansi
+
+      - name: Run Pint
+        run: composer lint
 
       - name: Commit and push installed branch
         env:
@@ -98,6 +104,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # Build branches are consumer-facing; keep the workflow on source branches only.
+          git rm -f .github/workflows/installed-branches.yml
+
+          # Source branches don't track lock files; don't commit generated ones.
+          rm -f composer.lock package-lock.json
+
           git add -A
 
           if git diff --staged --quiet; then
@@ -106,7 +118,7 @@ jobs:
           fi
 
           git commit \
-            -m "chore: apply default feature installation" \
-            -m "Regenerated from ${SOURCE_BRANCH}@${SOURCE_SHA}."
+            -m "chore: build installed branch" \
+            -m "Chisel (all features), Rector, and Pint applied to ${SOURCE_BRANCH}@${SOURCE_SHA}."
 
           git push --force-with-lease origin "HEAD:${TARGET_BRANCH}"
