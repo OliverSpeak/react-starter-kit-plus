@@ -41,7 +41,7 @@ final class SetLocale
 
         // Check cookie for persisted preference (survives logout/login)
         $cookieLocale = $request->cookie('locale');
-        if ($cookieLocale && $this->isSupportedLocale($cookieLocale)) {
+        if (is_string($cookieLocale) && $this->isSupportedLocale($cookieLocale)) {
             return $cookieLocale;
         }
 
@@ -86,7 +86,9 @@ final class SetLocale
      */
     private function getDefaultLocale(): string
     {
-        return config('locale.default', config('app.locale'));
+        $locale = config('locale.default', config('app.locale'));
+
+        return is_string($locale) ? $locale : 'en';
     }
 
     /**

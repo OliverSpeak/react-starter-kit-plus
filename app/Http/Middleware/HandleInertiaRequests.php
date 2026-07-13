@@ -68,9 +68,13 @@ final class HandleInertiaRequests extends Middleware
             if (file_exists($jsonPath)) {
                 try {
                     $jsonContent = file_get_contents($jsonPath);
-                    $jsonData = json_decode($jsonContent, true);
+                    if ($jsonContent === false) {
+                        logger()->warning("Failed to read JSON translation file: {$jsonPath}");
+                    } else {
+                        $jsonData = json_decode($jsonContent, true);
+                    }
 
-                    if (! is_array($jsonData)) {
+                    if (! isset($jsonData) || ! is_array($jsonData)) {
                         logger()->warning("JSON translation file does not contain a valid array: {$jsonPath}");
                     } else {
                         $jsonKeys = array_keys($jsonData);
