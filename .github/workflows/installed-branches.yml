@@ -107,6 +107,9 @@ jobs:
           # Build branches are consumer-facing; keep the workflow on source branches only.
           git rm -f .github/workflows/installed-branches.yml
 
+          # Source branches don't track lock files; don't commit generated ones.
+          rm -f composer.lock package-lock.json
+
           git add -A
 
           if git diff --staged --quiet; then
