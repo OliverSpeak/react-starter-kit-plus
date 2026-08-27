@@ -19,7 +19,7 @@
         "nunomaduro/essentials": "^1.0"
     },
     "require-dev": {
-        "driftingly/rector-laravel": "^2.5",
+        "driftingly/rector-laravel": "^2.6",
         "fakerphp/faker": "^1.24",
         "larastan/larastan": "^3.9",
         "laravel/pail": "^1.2.5",
@@ -29,7 +29,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.9.3",
         "phpunit/phpunit": "^12.5.23",
-        "rector/rector": "^2.5"
+        "rector/rector": "^2.6"
     },
     "autoload": {
         "psr-4": {
