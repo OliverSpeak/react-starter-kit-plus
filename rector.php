@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\Config\RectorConfig;
 use RectorLaravel\Set\LaravelSetList;
 use RectorLaravel\Set\LaravelSetProvider;
@@ -21,6 +22,9 @@ return RectorConfig::configure()
         LaravelSetList::LARAVEL_IF_HELPERS,
         LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
     ])
+    ->withImportNames(
+        removeUnusedImports: true,
+    )
     ->withComposerBased(laravel: true)
     ->withCache(
         cacheDirectory: '/tmp/rector',
@@ -29,11 +33,14 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__.'/app',
         __DIR__.'/bootstrap/app.php',
+        __DIR__.'/config',
         __DIR__.'/database',
         __DIR__.'/public',
-        __DIR__.'/resources',
         __DIR__.'/routes',
         __DIR__.'/tests',
+    ])
+    ->withSkip([
+        MakeInheritedMethodVisibilitySameAsParentRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,
@@ -41,5 +48,6 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: true,
         earlyReturn: true,
+        codingStyle: true,
     )
     ->withPhpSets();
