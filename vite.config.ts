@@ -28,8 +28,17 @@ export default defineConfig(({ command }) => ({
             formVariants: true,
         }),
     ],
-    server:
-        command === 'serve'
+    server: {
+        watch: {
+            ignored: [
+                '**/.agents/**',
+                '**/.claude/**',
+                '**/.cursor/**',
+                '**/.junie/**',
+                '**/vendor/**',
+            ],
+        },
+        ...(command === 'serve'
             ? {
                   host: '0.0.0.0', // Bind to all interfaces (for Docker)
                   cors: true,
@@ -38,5 +47,6 @@ export default defineConfig(({ command }) => ({
                       host: 'laravel.test.react-starter-kit-plus.orb.local',
                   },
               }
-            : undefined,
+            : {}),
+    },
 }));
