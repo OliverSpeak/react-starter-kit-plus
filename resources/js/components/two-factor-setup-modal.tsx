@@ -1,38 +1,38 @@
-import { Form } from '@inertiajs/react';
-import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { Check, Copy, ScanLine } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import AlertError from '@/components/alert-error';
-import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
+import { Form } from "@inertiajs/react";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { Check, Copy, ScanLine } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import AlertError from "@/components/alert-error";
+import InputError from "@/components/input-error";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '@/components/ui/input-otp';
-import { Spinner } from '@/components/ui/spinner';
-import { useAppearance } from '@/hooks/use-appearance';
-import { useClipboard } from '@/hooks/use-clipboard';
-import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
-import { useTranslation } from '@/lib/use-translations';
-import { confirm } from '@/routes/two-factor';
+} from "@/components/ui/input-otp";
+import { Spinner } from "@/components/ui/spinner";
+import { useAppearance } from "@/hooks/use-appearance";
+import { useClipboard } from "@/hooks/use-clipboard";
+import { OTP_MAX_LENGTH } from "@/hooks/use-two-factor-auth";
+import { useTranslation } from "@/lib/use-translations";
+import { confirm } from "@/routes/two-factor";
 
 function GridScanIcon() {
     return (
-        <div className="mb-3 rounded-full border border-border bg-card p-0.5 shadow-sm">
-            <div className="relative overflow-hidden rounded-full border border-border bg-muted p-2.5">
+        <div className="border-border bg-card mb-3 rounded-full border p-0.5 shadow-sm">
+            <div className="border-border bg-muted relative overflow-hidden rounded-full border p-2.5">
                 <div className="absolute inset-0 grid grid-cols-5 opacity-50">
                     {Array.from({ length: 5 }, (_, i) => (
                         <div
                             key={`col-${i + 1}`}
-                            className="border-r border-border last:border-r-0"
+                            className="border-border border-r last:border-r-0"
                         />
                     ))}
                 </div>
@@ -40,11 +40,11 @@ function GridScanIcon() {
                     {Array.from({ length: 5 }, (_, i) => (
                         <div
                             key={`row-${i + 1}`}
-                            className="border-b border-border last:border-b-0"
+                            className="border-border border-b last:border-b-0"
                         />
                     ))}
                 </div>
-                <ScanLine className="relative z-20 size-6 text-foreground" />
+                <ScanLine className="text-foreground relative z-20 size-6" />
             </div>
         </div>
     );
@@ -75,7 +75,7 @@ function TwoFactorSetupStep({
             ) : (
                 <>
                     <div className="mx-auto flex max-w-md overflow-hidden">
-                        <div className="mx-auto aspect-square w-64 rounded-lg border border-border">
+                        <div className="border-border mx-auto aspect-square w-64 rounded-lg border">
                             <div className="z-10 flex h-full w-full items-center justify-center p-5">
                                 {qrCodeSvg ? (
                                     <div
@@ -85,8 +85,8 @@ function TwoFactorSetupStep({
                                         }}
                                         style={{
                                             filter:
-                                                resolvedAppearance === 'dark'
-                                                    ? 'invert(1) brightness(1.5)'
+                                                resolvedAppearance === "dark"
+                                                    ? "invert(1) brightness(1.5)"
                                                     : undefined,
                                         }}
                                     />
@@ -104,18 +104,18 @@ function TwoFactorSetupStep({
                     </div>
 
                     <div className="relative flex w-full items-center justify-center">
-                        <div className="absolute inset-0 top-1/2 h-px w-full bg-border" />
-                        <span className="relative bg-card px-2 py-1">
+                        <div className="bg-border absolute inset-0 top-1/2 h-px w-full" />
+                        <span className="bg-card relative px-2 py-1">
                             {t(
-                                'settings.security.twoFactor.setup.orEnterManually',
+                                "settings.security.twoFactor.setup.orEnterManually",
                             )}
                         </span>
                     </div>
 
                     <div className="flex w-full space-x-2">
-                        <div className="flex w-full items-stretch overflow-hidden rounded-xl border border-border">
+                        <div className="border-border flex w-full items-stretch overflow-hidden rounded-xl border">
                             {!manualSetupKey ? (
-                                <div className="flex h-full w-full items-center justify-center bg-muted p-3">
+                                <div className="bg-muted flex h-full w-full items-center justify-center p-3">
                                     <Spinner />
                                 </div>
                             ) : (
@@ -124,16 +124,16 @@ function TwoFactorSetupStep({
                                         type="text"
                                         readOnly
                                         value={manualSetupKey}
-                                        className="h-full w-full bg-background p-3 text-foreground outline-none"
+                                        className="bg-background text-foreground h-full w-full p-3 outline-none"
                                         aria-label={t(
-                                            'settings.security.twoFactor.setup.setupKey',
+                                            "settings.security.twoFactor.setup.setupKey",
                                         )}
                                     />
                                     <button
                                         onClick={() => copy(manualSetupKey)}
-                                        className="cursor-pointer border-l border-border px-3 hover:bg-muted"
+                                        className="cursor-pointer border-border hover:bg-muted border-l px-3"
                                         aria-label={t(
-                                            'settings.security.twoFactor.setup.copy',
+                                            "settings.security.twoFactor.setup.copy",
                                         )}
                                     >
                                         <IconComponent className="w-4" />
@@ -156,12 +156,12 @@ function TwoFactorVerificationStep({
     onBack: () => void;
 }) {
     const t = useTranslation();
-    const [code, setCode] = useState<string>('');
+    const [code, setCode] = useState<string>("");
     const pinInputContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setTimeout(() => {
-            pinInputContainerRef.current?.querySelector('input')?.focus();
+            pinInputContainerRef.current?.querySelector("input")?.focus();
         }, 0);
     }, []);
 
@@ -221,7 +221,7 @@ function TwoFactorVerificationStep({
                                 onClick={onBack}
                                 disabled={processing}
                             >
-                                {t('common.back')}
+                                {t("common.back")}
                             </Button>
                             <Button
                                 type="submit"
@@ -230,7 +230,7 @@ function TwoFactorVerificationStep({
                                     processing || code.length < OTP_MAX_LENGTH
                                 }
                             >
-                                {t('common.confirm')}
+                                {t("common.confirm")}
                             </Button>
                         </div>
                     </div>
@@ -274,30 +274,30 @@ export default function TwoFactorSetupModal({
     }>(() => {
         if (twoFactorEnabled) {
             return {
-                title: t('settings.security.twoFactor.setup.enabledTitle'),
+                title: t("settings.security.twoFactor.setup.enabledTitle"),
                 description: t(
-                    'settings.security.twoFactor.setup.enabledDescription',
+                    "settings.security.twoFactor.setup.enabledDescription",
                 ),
-                buttonText: t('common.close'),
+                buttonText: t("common.close"),
             };
         }
 
         if (showVerificationStep) {
             return {
-                title: t('settings.security.twoFactor.setup.verifyTitle'),
+                title: t("settings.security.twoFactor.setup.verifyTitle"),
                 description: t(
-                    'settings.security.twoFactor.setup.verifyDescription',
+                    "settings.security.twoFactor.setup.verifyDescription",
                 ),
-                buttonText: t('common.continue'),
+                buttonText: t("common.continue"),
             };
         }
 
         return {
-            title: t('settings.security.twoFactor.setup.enableTitle'),
+            title: t("settings.security.twoFactor.setup.enableTitle"),
             description: t(
-                'settings.security.twoFactor.setup.enableDescription',
+                "settings.security.twoFactor.setup.enableDescription",
             ),
-            buttonText: t('common.continue'),
+            buttonText: t("common.continue"),
         };
     }, [twoFactorEnabled, showVerificationStep, t]);
 
@@ -333,7 +333,7 @@ export default function TwoFactorSetupModal({
 
     useEffect(() => {
         if (isOpen && !qrCodeSvg) {
-            fetchSetupDataRef.current();
+            void fetchSetupDataRef.current();
         }
     }, [isOpen, qrCodeSvg]);
 
