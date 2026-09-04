@@ -1,28 +1,28 @@
-import { Form } from "@inertiajs/react";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { Check, Copy, ScanLine } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import AlertError from "@/components/alert-error";
-import InputError from "@/components/input-error";
-import { Button } from "@/components/ui/button";
+import { Form } from '@inertiajs/react';
+import { REGEXP_ONLY_DIGITS } from 'input-otp';
+import { Check, Copy, ScanLine } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AlertError from '@/components/alert-error';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { Spinner } from "@/components/ui/spinner";
-import { useAppearance } from "@/hooks/use-appearance";
-import { useClipboard } from "@/hooks/use-clipboard";
-import { OTP_MAX_LENGTH } from "@/hooks/use-two-factor-auth";
-import { useTranslation } from "@/lib/use-translations";
-import { confirm } from "@/routes/two-factor";
+} from '@/components/ui/input-otp';
+import { Spinner } from '@/components/ui/spinner';
+import { useAppearance } from '@/hooks/use-appearance';
+import { useClipboard } from '@/hooks/use-clipboard';
+import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
+import { useTranslation } from '@/lib/use-translations';
+import { confirm } from '@/routes/two-factor';
 
 function GridScanIcon() {
     return (
@@ -85,8 +85,8 @@ function TwoFactorSetupStep({
                                         }}
                                         style={{
                                             filter:
-                                                resolvedAppearance === "dark"
-                                                    ? "invert(1) brightness(1.5)"
+                                                resolvedAppearance === 'dark'
+                                                    ? 'invert(1) brightness(1.5)'
                                                     : undefined,
                                         }}
                                     />
@@ -107,7 +107,7 @@ function TwoFactorSetupStep({
                         <div className="bg-border absolute inset-0 top-1/2 h-px w-full" />
                         <span className="bg-card relative px-2 py-1">
                             {t(
-                                "settings.security.twoFactor.setup.orEnterManually",
+                                'settings.security.twoFactor.setup.orEnterManually',
                             )}
                         </span>
                     </div>
@@ -126,14 +126,14 @@ function TwoFactorSetupStep({
                                         value={manualSetupKey}
                                         className="bg-background text-foreground h-full w-full p-3 outline-none"
                                         aria-label={t(
-                                            "settings.security.twoFactor.setup.setupKey",
+                                            'settings.security.twoFactor.setup.setupKey',
                                         )}
                                     />
                                     <button
                                         onClick={() => copy(manualSetupKey)}
-                                        className="cursor-pointer border-border hover:bg-muted border-l px-3"
+                                        className="border-border hover:bg-muted cursor-pointer border-l px-3"
                                         aria-label={t(
-                                            "settings.security.twoFactor.setup.copy",
+                                            'settings.security.twoFactor.setup.copy',
                                         )}
                                     >
                                         <IconComponent className="w-4" />
@@ -156,12 +156,12 @@ function TwoFactorVerificationStep({
     onBack: () => void;
 }) {
     const t = useTranslation();
-    const [code, setCode] = useState<string>("");
+    const [code, setCode] = useState<string>('');
     const pinInputContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setTimeout(() => {
-            pinInputContainerRef.current?.querySelector("input")?.focus();
+            pinInputContainerRef.current?.querySelector('input')?.focus();
         }, 0);
     }, []);
 
@@ -221,7 +221,7 @@ function TwoFactorVerificationStep({
                                 onClick={onBack}
                                 disabled={processing}
                             >
-                                {t("common.back")}
+                                {t('common.back')}
                             </Button>
                             <Button
                                 type="submit"
@@ -230,7 +230,7 @@ function TwoFactorVerificationStep({
                                     processing || code.length < OTP_MAX_LENGTH
                                 }
                             >
-                                {t("common.confirm")}
+                                {t('common.confirm')}
                             </Button>
                         </div>
                     </div>
@@ -274,30 +274,30 @@ export default function TwoFactorSetupModal({
     }>(() => {
         if (twoFactorEnabled) {
             return {
-                title: t("settings.security.twoFactor.setup.enabledTitle"),
+                title: t('settings.security.twoFactor.setup.enabledTitle'),
                 description: t(
-                    "settings.security.twoFactor.setup.enabledDescription",
+                    'settings.security.twoFactor.setup.enabledDescription',
                 ),
-                buttonText: t("common.close"),
+                buttonText: t('common.close'),
             };
         }
 
         if (showVerificationStep) {
             return {
-                title: t("settings.security.twoFactor.setup.verifyTitle"),
+                title: t('settings.security.twoFactor.setup.verifyTitle'),
                 description: t(
-                    "settings.security.twoFactor.setup.verifyDescription",
+                    'settings.security.twoFactor.setup.verifyDescription',
                 ),
-                buttonText: t("common.continue"),
+                buttonText: t('common.continue'),
             };
         }
 
         return {
-            title: t("settings.security.twoFactor.setup.enableTitle"),
+            title: t('settings.security.twoFactor.setup.enableTitle'),
             description: t(
-                "settings.security.twoFactor.setup.enableDescription",
+                'settings.security.twoFactor.setup.enableDescription',
             ),
-            buttonText: t("common.continue"),
+            buttonText: t('common.continue'),
         };
     }, [twoFactorEnabled, showVerificationStep, t]);
 
