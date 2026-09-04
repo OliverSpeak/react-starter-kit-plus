@@ -6,32 +6,38 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import { loadEnv } from 'vite';
-import { defineConfig, lazyPlugins } from 'vite-plus';
+import { defineConfig, lazyPlugins, type PluginOption } from 'vite-plus';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), 'VITE_');
 
     return {
-        plugins: lazyPlugins(() => [
-            laravel({
-                input: ['resources/css/app.css', 'resources/js/app.tsx'],
-                refresh: true,
-                fonts: [
-                    bunny('Instrument Sans', {
-                        weights: [400, 500, 600],
+        plugins: lazyPlugins(
+            () =>
+                [
+                    laravel({
+                        input: [
+                            'resources/css/app.css',
+                            'resources/js/app.tsx',
+                        ],
+                        refresh: true,
+                        fonts: [
+                            bunny('Instrument Sans', {
+                                weights: [400, 500, 600],
+                            }),
+                        ],
                     }),
-                ],
-            }),
-            inertia(),
-            react(),
-            babel({
-                presets: [reactCompilerPreset()],
-            }),
-            tailwindcss(),
-            wayfinder({
-                formVariants: true,
-            }),
-        ]),
+                    inertia(),
+                    react(),
+                    babel({
+                        presets: [reactCompilerPreset()],
+                    }),
+                    tailwindcss(),
+                    wayfinder({
+                        formVariants: true,
+                    }),
+                ] as PluginOption[],
+        ),
         server: {
             host: '0.0.0.0', // Bind to all interfaces (for Docker)
             cors: true,
