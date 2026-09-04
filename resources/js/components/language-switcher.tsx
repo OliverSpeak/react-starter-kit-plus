@@ -85,7 +85,7 @@ export function LanguageSwitcher({
                                 type="button"
                                 onClick={() => handleLocaleChange(code)}
                                 className={cn(
-                                    'flex items-center justify-between rounded-lg border p-4 text-left transition-colors hover:bg-accent',
+                                    'hover:bg-accent flex items-center justify-between rounded-lg border p-4 text-left transition-colors',
                                     isActive
                                         ? 'border-primary bg-accent'
                                         : 'border-border',
@@ -96,13 +96,13 @@ export function LanguageSwitcher({
                                         {info.native}
                                     </span>
                                     {info.name !== info.native && (
-                                        <span className="text-sm text-muted-foreground">
+                                        <span className="text-muted-foreground text-sm">
                                             {info.name}
                                         </span>
                                     )}
                                 </div>
                                 {isActive && (
-                                    <Check className="h-5 w-5 text-primary" />
+                                    <Check className="text-primary h-5 w-5" />
                                 )}
                             </button>
                         );

@@ -25,6 +25,6 @@ final class LocaleController extends Controller
         }
 
         // Save to cookie to persist across logout/login
-        return redirect()->back()->cookie('locale', $validated['locale'], 60 * 24 * 365); // 1 year
+        return back()->cookie('locale', $validated['locale'], 60 * 24 * 365); // 1 year
     }
 }
