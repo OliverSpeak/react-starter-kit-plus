@@ -9,7 +9,7 @@ Route::inertia('/', 'welcome')->name('home');
 
 Route::put('locale', [LocaleController::class, 'update'])->name('locale.update');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
 

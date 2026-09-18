@@ -10,14 +10,10 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { createTranslator, useTranslation } from '@/lib/use-translations';
 import type { TranslationObject } from '@/lib/use-translations';
-/* @chisel-registration */
 import { register } from '@/routes';
-/* @end-chisel-registration */
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-/* @chisel-passkeys */
 import PasskeyVerify from '@/components/passkey-verify';
-/* @end-chisel-passkeys */
 
 type Props = {
     status?: string;
@@ -30,9 +26,7 @@ export default function Login({ status, canResetPassword }: Props) {
         <>
             <Head title={t('auth.loginTitle')} />
 
-            {/* @chisel-passkeys */}
             <PasskeyVerify />
-            {/* @end-chisel-passkeys */}
 
             <Form
                 {...store.form()}
@@ -108,14 +102,12 @@ export default function Login({ status, canResetPassword }: Props) {
                             </Button>
                         </div>
 
-                        {/* @chisel-registration */}
                         <div className="text-muted-foreground text-center text-sm">
                             {t('auth.noAccount')}{' '}
                             <TextLink href={register()} tabIndex={5}>
                                 {t('auth.signUp')}
                             </TextLink>
                         </div>
-                        {/* @end-chisel-registration */}
                     </>
                 )}
             </Form>
