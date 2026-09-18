@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Override;
 
-class HandleInertiaRequests extends Middleware
+final class HandleInertiaRequests extends Middleware
 {
     /**
      * The root template that's loaded on the first page visit.
@@ -14,6 +17,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @var string
      */
+    #[Override]
     protected $rootView = 'app';
 
     /**
