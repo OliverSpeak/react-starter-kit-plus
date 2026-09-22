@@ -109,7 +109,7 @@ export default function Login({ status, canResetPassword }: Props) {
                         </div>
 
                         {/* @chisel-registration */}
-                        <div className="text-muted-foreground text-center text-sm">
+                        <div className="text-center text-sm text-muted-foreground">
                             {t('auth.noAccount')}{' '}
                             <TextLink href={register()} tabIndex={5}>
                                 {t('auth.signUp')}
