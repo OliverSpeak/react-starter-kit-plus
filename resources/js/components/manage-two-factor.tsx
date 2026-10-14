@@ -67,7 +67,9 @@ export default function ManageTwoFactor(props: Props) {
                                     type="submit"
                                     disabled={processing}
                                 >
-                                    {t('settings.security.twoFactor.disable2FA')}
+                                    {t(
+                                        'settings.security.twoFactor.disable2FA',
+                                    )}
                                 </Button>
                             )}
                         </Form>
@@ -98,7 +100,9 @@ export default function ManageTwoFactor(props: Props) {
                             >
                                 {({ processing }) => (
                                     <Button type="submit" disabled={processing}>
-                                        {t('settings.security.twoFactor.enable2FA')}
+                                        {t(
+                                            'settings.security.twoFactor.enable2FA',
+                                        )}
                                     </Button>
                                 )}
                             </Form>

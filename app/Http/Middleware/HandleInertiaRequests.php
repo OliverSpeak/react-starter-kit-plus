@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
+use Override;
 use Throwable;
 
 final class HandleInertiaRequests extends Middleware
@@ -18,6 +19,7 @@ final class HandleInertiaRequests extends Middleware
      *
      * @var string
      */
+    #[Override]
     protected $rootView = 'app';
 
     /**
@@ -48,7 +50,7 @@ final class HandleInertiaRequests extends Middleware
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'currentLocale' => App::currentLocale(),
             'supportedLocales' => config('locale.supported', []),
-            'translations' => fn () => $this->loadTranslations(App::currentLocale()),
+            'translations' => fn (): array => $this->loadTranslations(App::currentLocale()),
         ];
     }
 
@@ -132,6 +134,7 @@ final class HandleInertiaRequests extends Middleware
                         if (! isset($translations['backend']) || ! is_array($translations['backend'])) {
                             $translations['backend'] = [];
                         }
+
                         $translations['backend'][$file] = $phpData;
                     } catch (Throwable $e) {
                         logger()->warning("Failed to load PHP translation file: {$filePath}", [
