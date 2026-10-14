@@ -67,7 +67,13 @@
         "authenticationCodeDescription": "認証アプリケーションから提供された認証コードを入力してください。",
         "loginWithRecoveryCode": "リカバリーコードを使用してログイン",
         "enterRecoveryCode": "リカバリーコードを入力",
-        "orYouCan": "または、"
+        "orYouCan": "または、",
+        "passkeyLogin": "パスキーでログイン",
+        "passkeyAuthenticating": "認証中...",
+        "passkeyLoginSeparator": "またはメールアドレスで続行",
+        "passkeyConfirm": "パスキーで確認",
+        "passkeyConfirming": "確認中...",
+        "passkeyConfirmSeparator": "またはパスワードで確認"
     },
     "menu": {
         "settings": "設定"
@@ -134,6 +140,26 @@
                     "enableTitle": "二要素認証を有効化",
                     "enableDescription": "二要素認証の有効化を完了するには、QRコードをスキャンするか、認証アプリにセットアップキーを入力してください"
                 }
+            },
+            "passkeys": {
+                "title": "パスキー",
+                "description": "パスワードなしでログインするためのパスキーを管理します",
+                "emptyTitle": "パスキーはまだありません",
+                "emptyDescription": "パスキーを追加すると、パスワードなしでログインできます",
+                "added": "追加: :time",
+                "lastUsed": "最終使用: :time",
+                "remove": "削除",
+                "removeTitle": "パスキーを削除",
+                "removeDescription": "パスキー「:name」を削除してもよろしいですか？削除すると、このパスキーでログインできなくなります。",
+                "removing": "削除中...",
+                "notSupported": "このブラウザはパスキーに対応していません。",
+                "add": "パスキーを追加",
+                "name": "パスキー名",
+                "namePlaceholder": "例: MacBook Pro、iPhone",
+                "nameDescription": "名前を付けておくと、後でこのパスキーを識別しやすくなります。",
+                "defaultName": ":os の :browser",
+                "register": "パスキーを登録",
+                "registering": "登録中..."
             }
         }
     },

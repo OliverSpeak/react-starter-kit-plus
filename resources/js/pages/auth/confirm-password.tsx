@@ -29,9 +29,9 @@ export default function ConfirmPassword() {
                     options: confirmOptions(),
                     submit: confirmStore(),
                 }}
-                label="Confirm with passkey"
-                loadingLabel="Confirming..."
-                separator="Or confirm with password"
+                label={t('auth.passkeyConfirm')}
+                loadingLabel={t('auth.passkeyConfirming')}
+                separator={t('auth.passkeyConfirmSeparator')}
             />
             {/* @end-chisel-passkeys */}
 

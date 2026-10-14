@@ -67,7 +67,13 @@
         "authenticationCodeDescription": "Enter the authentication code provided by your authenticator application.",
         "loginWithRecoveryCode": "login using a recovery code",
         "enterRecoveryCode": "Enter recovery code",
-        "orYouCan": "or you can"
+        "orYouCan": "or you can",
+        "passkeyLogin": "Sign in with a passkey",
+        "passkeyAuthenticating": "Authenticating...",
+        "passkeyLoginSeparator": "Or continue with email",
+        "passkeyConfirm": "Confirm with passkey",
+        "passkeyConfirming": "Confirming...",
+        "passkeyConfirmSeparator": "Or confirm with password"
     },
     "menu": {
         "settings": "Settings"
@@ -134,6 +140,26 @@
                     "enableTitle": "Enable Two-Factor Authentication",
                     "enableDescription": "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app"
                 }
+            },
+            "passkeys": {
+                "title": "Passkeys",
+                "description": "Manage your passkeys for passwordless sign-in",
+                "emptyTitle": "No passkeys yet",
+                "emptyDescription": "Add a passkey to sign in without a password",
+                "added": "Added :time",
+                "lastUsed": "Last used :time",
+                "remove": "Remove",
+                "removeTitle": "Remove passkey",
+                "removeDescription": "Are you sure you want to remove the \":name\" passkey? You will no longer be able to use it to sign in.",
+                "removing": "Removing...",
+                "notSupported": "Passkeys are not supported in this browser.",
+                "add": "Add passkey",
+                "name": "Passkey name",
+                "namePlaceholder": "e.g., MacBook Pro, iPhone",
+                "nameDescription": "A name helps you identify this passkey later.",
+                "defaultName": ":browser on :os",
+                "register": "Register passkey",
+                "registering": "Registering..."
             }
         }
     },
