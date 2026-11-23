@@ -110,6 +110,28 @@ class SecurityTest extends TestCase
         $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
     }
 
+    public function test_password_update_moves_the_current_session_to_a_new_id_and_signs_out_the_old_id()
+    {
+        $sessionCookie = (string) config('session.cookie');
+        $user = User::factory()->create();
+        $this->actingAs($user)->get(route('profile.edit'))->assertOk();
+        $sessionIdBeforeChange = session()->getId();
+
+        $this->withCookie($sessionCookie, $sessionIdBeforeChange)
+            ->from(route('security.edit'))
+            ->put(route('user-password.update'), [
+                'current_password' => 'password',
+                'password' => 'new-password',
+                'password_confirmation' => 'new-password',
+            ])
+            ->assertRedirect(route('security.edit'));
+        $sessionIdAfterChange = session()->getId();
+
+        $this->withCookie($sessionCookie, $sessionIdAfterChange)->get(route('profile.edit'))->assertOk();
+        $this->withCookie($sessionCookie, $sessionIdBeforeChange)->get(route('profile.edit'))->assertRedirect(route('login'));
+        $this->assertGuest();
+    }
+
     public function test_correct_password_must_be_provided_to_update_password()
     {
         $user = User::factory()->create();

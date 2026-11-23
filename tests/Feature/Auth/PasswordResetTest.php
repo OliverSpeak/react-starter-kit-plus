@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
@@ -91,5 +92,33 @@ class PasswordResetTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors('email');
+    }
+
+    public function test_untrusted_host_is_refused_outside_local()
+    {
+        $this->app['env'] = 'production';
+
+        try {
+            $response = $this->get('http://attacker.example'.route('password.request', absolute: false));
+        } finally {
+            $this->app['env'] = 'testing';
+            Request::setTrustedHosts([]);
+        }
+
+        $response->assertBadRequest();
+    }
+
+    public function test_app_url_host_is_served_outside_local()
+    {
+        $this->app['env'] = 'production';
+
+        try {
+            $response = $this->get(route('password.request'));
+        } finally {
+            $this->app['env'] = 'testing';
+            Request::setTrustedHosts([]);
+        }
+
+        $response->assertOk();
     }
 }

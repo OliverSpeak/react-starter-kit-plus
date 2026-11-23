@@ -94,7 +94,9 @@
             "description": "Update your name and email address",
             "emailUnverified": "Your email address is unverified.",
             "resendVerification": "Click here to re-send the verification email.",
-            "verificationLinkSent": "A new verification link has been sent to your email address."
+            "verificationLinkSent": "A new verification link has been sent to your email address.",
+            "currentPassword": "Current password",
+            "emailChangeNeedsPassword": "Enter your current password to change your email address."
         },
         "appearance": {
             "title": "Appearance",

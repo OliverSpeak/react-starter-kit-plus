@@ -136,6 +136,8 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 $paths['profile'],
                 'app/Providers/FortifyServiceProvider.php',
+                'app/Http/Controllers/Settings/ProfileController.php',
+                'tests/Feature/Settings/ProfileUpdateTest.php',
             )->removeSectionMarkers('email-verification');
         },
         else: function (Chisel $c) use ($paths) {
@@ -147,6 +149,8 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
                 $paths['profile'],
+                'app/Http/Controllers/Settings/ProfileController.php',
+                'tests/Feature/Settings/ProfileUpdateTest.php',
             )->removeSection('email-verification');
 
             $c->files(

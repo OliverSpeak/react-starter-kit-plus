@@ -94,7 +94,9 @@
             "description": "名前とメールアドレスを更新",
             "emailUnverified": "メールアドレスが確認されていません。",
             "resendVerification": "ここをクリックして確認メールを再送信してください。",
-            "verificationLinkSent": "新しい確認リンクがメールアドレスに送信されました。"
+            "verificationLinkSent": "新しい確認リンクがメールアドレスに送信されました。",
+            "currentPassword": "現在のパスワード",
+            "emailChangeNeedsPassword": "メールアドレスを変更するには、現在のパスワードを入力してください。"
         },
         "appearance": {
             "title": "外観",

@@ -3,12 +3,30 @@
 namespace Tests\Feature\Settings;
 
 use App\Models\User;
+use App\Notifications\EmailAddressChanged;
+/* @chisel-email-verification */
+use Illuminate\Auth\Notifications\VerifyEmail;
+/* @end-chisel-email-verification */
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Notification;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ProfileUpdateTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @return array<string, array{0: array<string, string>}>
+     */
+    public static function missingOrWrongCurrentPassword(): array
+    {
+        return [
+            'missing' => [[]],
+            'wrong' => [['current_password' => 'wrong-password']],
+        ];
+    }
 
     public function test_profile_page_is_displayed()
     {
@@ -30,6 +48,7 @@ class ProfileUpdateTest extends TestCase
             ->patch(route('profile.update'), [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'current_password' => 'password',
             ]);
 
         $response
@@ -52,6 +71,7 @@ class ProfileUpdateTest extends TestCase
             ->patch(route('profile.update'), [
                 'name' => 'Test User',
                 'email' => 'Test@Example.com',
+                'current_password' => 'password',
             ])
             ->assertSessionHasNoErrors();
 
@@ -88,6 +108,7 @@ class ProfileUpdateTest extends TestCase
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged()
     {
+        Notification::fake();
         $user = User::factory()->create();
 
         $response = $this
@@ -102,6 +123,57 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('profile.edit'));
 
         $this->assertNotNull($user->refresh()->email_verified_at);
+        Notification::assertNothingSent();
+    }
+
+    /**
+     * @param  array<string, string>  $passwordInput
+     */
+    #[DataProvider('missingOrWrongCurrentPassword')]
+    public function test_email_change_is_rejected_without_the_current_password(array $passwordInput)
+    {
+        Notification::fake();
+        $user = User::factory()->create(['email' => 'owner@example.com']);
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('profile.edit'))
+            ->patch(route('profile.update'), [
+                'name' => 'Test User',
+                'email' => 'attacker@example.com',
+                ...$passwordInput,
+            ]);
+
+        $response
+            ->assertSessionHasErrors('current_password')
+            ->assertRedirect(route('profile.edit'));
+        $user->refresh();
+        $this->assertSame('owner@example.com', $user->email);
+        $this->assertNotNull($user->email_verified_at);
+        Notification::assertNothingSent();
+    }
+
+    public function test_email_change_notifies_the_previous_address()
+    {
+        Notification::fake();
+        $user = User::factory()->create(['email' => 'owner@example.com']);
+
+        $this
+            ->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => 'Test User',
+                'email' => 'new-owner@example.com',
+                'current_password' => 'password',
+            ])
+            ->assertSessionHasNoErrors();
+
+        Notification::assertSentOnDemand(
+            EmailAddressChanged::class,
+            fn (EmailAddressChanged $notification, array $channels, AnonymousNotifiable $notifiable): bool => $notifiable->routes['mail'] === 'owner@example.com',
+        );
+        /* @chisel-email-verification */
+        Notification::assertSentTo($user, VerifyEmail::class);
+        /* @end-chisel-email-verification */
     }
 
     public function test_user_can_delete_their_account()
