@@ -103,4 +103,11 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('login'));
         $this->assertGuest();
     }
+
+    public function test_session_cookie_is_secure_outside_local()
+    {
+        $response = $this->get(route('login'));
+
+        $this->assertTrue($response->getCookie((string) config('session.cookie'), decrypt: false)?->isSecure());
+    }
 }
