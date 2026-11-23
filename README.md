@@ -28,6 +28,22 @@ For your own projects, fork either **main-build** or **main-i18n-build**, depend
 - Add hostname configuration support to `vite.config.ts`
 - Apply `cursor-pointer` class to interactive components that are missing it upstream
 - Apply `bg-background` class to component variants that are missing it upstream
+- Security hardening (see below)
+
+## Security hardening
+
+The following changes harden authentication and deployment defaults:
+
+- Password changes and resets sign out the user's other sessions (`authenticateSessions()`), and a settings password change regenerates the current session ID
+- Changing the account email requires the current password, notifies the previous address, and sends a verification link to the new one (when email verification is installed)
+- The `appearance` cookie is validated before it reaches the inline script in `app.blade.php`
+- The private `local` disk no longer serves files through signed `/storage` URLs
+
+Some of these change deployment requirements outside the `local` environment:
+
+- **Trusted hosts:** `trustHosts()` is enabled, so requests for any host other than the `APP_URL` host (or its subdomains) receive a 400. Make sure `APP_URL` matches the domain users visit.
+- **Secure session cookie:** `SESSION_SECURE_COOKIE` defaults to `true`. Serve the app over HTTPS, or set it to `false` explicitly.
+- **Trusted proxies:** behind a load balancer or reverse proxy other than Laravel Cloud, Forge or Vapor, set `TRUSTED_PROXIES` (comma-separated IPs/CIDRs, or `*`) so client IPs and rate limits are correct.
 
 ## Locale (i18n) support
 
