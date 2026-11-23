@@ -1,4 +1,5 @@
 import { Form, Head, usePage } from '@inertiajs/react';
+import { useState } from 'react';
 /* @chisel-email-verification */
 import { Link } from '@inertiajs/react';
 /* @end-chisel-email-verification */
@@ -6,6 +7,7 @@ import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileCo
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -31,6 +33,7 @@ export default function Profile(
     /* @end-chisel-email-verification */
 ) {
     const { auth } = usePage<PageProps>().props;
+    const [email, setEmail] = useState(auth.user.email);
 
     return (
         <>
@@ -50,6 +53,8 @@ export default function Profile(
                     options={{
                         preserveScroll: true,
                     }}
+                    resetOnError={['current_password']}
+                    resetOnSuccess={['current_password']}
                     className="space-y-6"
                 >
                     {({ processing, errors }) => (
@@ -80,7 +85,10 @@ export default function Profile(
                                     id="email"
                                     type="email"
                                     className="mt-1 block w-full"
-                                    defaultValue={auth.user.email}
+                                    value={email}
+                                    onChange={(event) =>
+                                        setEmail(event.target.value)
+                                    }
                                     name="email"
                                     required
                                     autoComplete="username"
@@ -92,6 +100,32 @@ export default function Profile(
                                     message={errors.email}
                                 />
                             </div>
+
+                            {email.toLowerCase() !== auth.user.email && (
+                                <div className="grid gap-2">
+                                    <Label htmlFor="current_password">
+                                        Current password
+                                    </Label>
+
+                                    <PasswordInput
+                                        id="current_password"
+                                        name="current_password"
+                                        className="mt-1 block w-full"
+                                        autoComplete="current-password"
+                                        required
+                                        placeholder="Current password"
+                                    />
+                                    <div className="text-sm text-muted-foreground">
+                                        Enter your current password to change
+                                        your email address.
+                                    </div>
+
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.current_password}
+                                    />
+                                </div>
+                            )}
 
                             {/* @chisel-email-verification */}
                             {mustVerifyEmail &&
