@@ -91,4 +91,16 @@ class AuthenticationTest extends TestCase
 
         $response->assertTooManyRequests();
     }
+
+    public function test_session_is_signed_out_after_the_password_changes_elsewhere()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user)->get(route('profile.edit'))->assertOk();
+
+        $user->forceFill(['password' => 'changed-elsewhere'])->save();
+        $response = $this->get(route('profile.edit'));
+
+        $response->assertRedirect(route('login'));
+        $this->assertGuest();
+    }
 }
