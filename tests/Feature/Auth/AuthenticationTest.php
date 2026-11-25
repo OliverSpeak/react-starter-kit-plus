@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\RateLimiter;
+use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
 
@@ -109,5 +110,30 @@ class AuthenticationTest extends TestCase
         $response = $this->get(route('login'));
 
         $this->assertTrue($response->getCookie((string) config('session.cookie'), decrypt: false)?->isSecure());
+    }
+
+    public function test_pages_ask_the_browser_to_encrypt_history()
+    {
+        $response = $this->actingAs(User::factory()->create())->get(route('profile.edit'));
+
+        $response->assertInertia(function (Assert $page) {
+            $this->assertTrue($page->toArray()['encryptHistory'] ?? false);
+
+            return $page;
+        });
+    }
+
+    public function test_the_page_after_logout_clears_browser_history()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $response = $this->followingRedirects()->post(route('logout'));
+
+        $this->assertGuest();
+        $response->assertInertia(function (Assert $page) {
+            $this->assertTrue($page->toArray()['clearHistory'] ?? false);
+
+            return $page;
+        });
     }
 }

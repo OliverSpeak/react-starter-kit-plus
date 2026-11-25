@@ -24,6 +24,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | History encryption
+    |--------------------------------------------------------------------------
+    |
+    | Encrypt the page props Inertia stores in browser history, so after
+    | logout nobody can press Back into the previous account's data. Logout
+    | and account deletion clear the history key. Needs a secure context
+    | (HTTPS or localhost).
+    |
+    */
+
+    'history' => [
+        'encrypt' => (bool) env('INERTIA_ENCRYPT_HISTORY', true),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Pages
     |--------------------------------------------------------------------------
     |
