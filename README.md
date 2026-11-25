@@ -38,6 +38,8 @@ The following changes harden authentication and deployment defaults:
 - Changing the account email requires the current password, notifies the previous address, and sends a verification link to the new one (when email verification is installed)
 - The `appearance` cookie is validated before it reaches the inline script in `app.blade.php`
 - The private `local` disk no longer serves files through signed `/storage` URLs
+- Web pages refuse cross-origin framing (`Content-Security-Policy: frame-ancestors 'self'` and `X-Frame-Options: SAMEORIGIN`), so the app cannot be embedded in another site's iframe
+- Every `.env.*` file except `.env.example` is gitignored
 
 Some of these change deployment requirements outside the `local` environment:
 
