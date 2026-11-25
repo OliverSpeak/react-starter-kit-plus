@@ -10,6 +10,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -210,5 +211,21 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('profile.edit'));
 
         $this->assertNotNull($user->fresh());
+    }
+
+    public function test_the_page_after_deleting_an_account_clears_browser_history()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->followingRedirects()
+            ->delete(route('profile.destroy'), ['password' => 'password']);
+
+        $this->assertGuest();
+        $response->assertInertia(function (Assert $page) {
+            $this->assertTrue($page->toArray()['clearHistory'] ?? false);
+
+            return $page;
+        });
     }
 }

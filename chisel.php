@@ -174,6 +174,8 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/SecurityController.php',
+                'app/Listeners/SendSecuritySettingsChangedNotification.php',
+                'tests/Feature/SecuritySettingsNotificationTest.php',
             )->removeSectionMarkers('2fa');
         },
         else: function (Chisel $c) use ($paths) {
@@ -190,6 +192,8 @@ return Chisel::script(__DIR__)
                 'app/Http/Controllers/Settings/SecurityController.php',
                 $paths['security'],
                 $paths['auth_types'],
+                'app/Listeners/SendSecuritySettingsChangedNotification.php',
+                'tests/Feature/SecuritySettingsNotificationTest.php',
             )->removeSection('2fa');
 
             if ($paths['two_factor_otp_package'] !== null) {
@@ -219,6 +223,8 @@ return Chisel::script(__DIR__)
                 $paths['security'],
                 $paths['login'],
                 $paths['confirm_password'],
+                'app/Listeners/SendSecuritySettingsChangedNotification.php',
+                'tests/Feature/SecuritySettingsNotificationTest.php',
             )->removeSectionMarkers('passkeys');
         },
         else: function (Chisel $c) use ($paths) {
@@ -239,6 +245,8 @@ return Chisel::script(__DIR__)
                 $paths['security'],
                 $paths['login'],
                 $paths['confirm_password'],
+                'app/Listeners/SendSecuritySettingsChangedNotification.php',
+                'tests/Feature/SecuritySettingsNotificationTest.php',
             )->removeSection('passkeys');
 
             chiselRemoveNpmPackages($c, '@laravel/passkeys');
@@ -260,6 +268,12 @@ return Chisel::script(__DIR__)
         else: function (Chisel $c) use ($paths) {
             $c->file($paths['security'])
                 ->removeSection('2fa-or-passkeys');
+
+            $c->files(
+                'app/Listeners/SendSecuritySettingsChangedNotification.php',
+                'app/Notifications/SecuritySettingsChanged.php',
+                'tests/Feature/SecuritySettingsNotificationTest.php',
+            )->delete();
         },
     )
     ->selected(
