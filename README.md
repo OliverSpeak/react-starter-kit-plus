@@ -40,11 +40,14 @@ The following changes harden authentication and deployment defaults:
 - The private `local` disk no longer serves files through signed `/storage` URLs
 - Web pages refuse cross-origin framing (`Content-Security-Policy: frame-ancestors 'self'` and `X-Frame-Options: SAMEORIGIN`), so the app cannot be embedded in another site's iframe
 - Every `.env.*` file except `.env.example` is gitignored
+- Inertia history is encrypted and cleared on logout and account deletion, so nobody can press Back into a signed-out account
+- The account is emailed when a passkey is added or removed, two-factor authentication is turned on or off, or recovery codes are regenerated
 
 Some of these change deployment requirements outside the `local` environment:
 
 - **Trusted hosts:** `trustHosts()` is enabled, so requests for any host other than the `APP_URL` host (or its subdomains) receive a 400. Make sure `APP_URL` matches the domain users visit.
 - **Secure session cookie:** `SESSION_SECURE_COOKIE` defaults to `true`. Serve the app over HTTPS, or set it to `false` explicitly.
+- **History encryption:** needs a secure context (HTTPS or `localhost`). If you serve the app over plain HTTP from another host, set `INERTIA_ENCRYPT_HISTORY=false`.
 - **Trusted proxies:** behind a load balancer or reverse proxy other than Laravel Cloud, Forge or Vapor, set `TRUSTED_PROXIES` (comma-separated IPs/CIDRs, or `*`) so client IPs and rate limits are correct.
 
 ## Locale (i18n) support
