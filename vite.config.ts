@@ -1,8 +1,7 @@
 import inertia from '@inertiajs/vite';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
-import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
-import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import { loadEnv } from 'vite';
@@ -28,10 +27,7 @@ export default defineConfig(({ mode }) => {
                         ],
                     }),
                     inertia(),
-                    react(),
-                    babel({
-                        presets: [reactCompilerPreset()],
-                    }),
+                    react({ compiler: true }),
                     tailwindcss(),
                     wayfinder({
                         formVariants: true,
