@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
@@ -9,7 +11,7 @@ use Illuminate\Notifications\Notification;
  * Tells the account that a sign-in method changed, so an owner whose session was misused can react before the
  * attacker's passkey or two-factor setup locks them out.
  */
-class SecuritySettingsChanged extends Notification
+final class SecuritySettingsChanged extends Notification
 {
     /**
      * Create a new notification instance.

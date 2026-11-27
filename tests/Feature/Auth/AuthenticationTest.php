@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
@@ -9,18 +11,18 @@ use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
 
-class AuthenticationTest extends TestCase
+final class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_login_screen_can_be_rendered()
+    public function test_login_screen_can_be_rendered(): void
     {
         $response = $this->get(route('login'));
 
         $response->assertOk();
     }
 
-    public function test_users_can_authenticate_using_the_login_screen()
+    public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
 
@@ -33,8 +35,7 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
-    /* @chisel-2fa */
-    public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge()
+    public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge(): void
     {
         $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
@@ -54,9 +55,8 @@ class AuthenticationTest extends TestCase
         $response->assertSessionHas('login.id', $user->id);
         $this->assertGuest();
     }
-    /* @end-chisel-2fa */
 
-    public function test_users_can_not_authenticate_with_invalid_password()
+    public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
@@ -68,7 +68,7 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_users_can_logout()
+    public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
 
@@ -79,7 +79,7 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_users_are_rate_limited()
+    public function test_users_are_rate_limited(): void
     {
         $user = User::factory()->create();
 
@@ -93,7 +93,7 @@ class AuthenticationTest extends TestCase
         $response->assertTooManyRequests();
     }
 
-    public function test_session_is_signed_out_after_the_password_changes_elsewhere()
+    public function test_session_is_signed_out_after_the_password_changes_elsewhere(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)->get(route('profile.edit'))->assertOk();
@@ -105,32 +105,32 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_session_cookie_is_secure_outside_local()
+    public function test_session_cookie_is_secure_outside_local(): void
     {
         $response = $this->get(route('login'));
 
         $this->assertTrue($response->getCookie((string) config('session.cookie'), decrypt: false)?->isSecure());
     }
 
-    public function test_pages_ask_the_browser_to_encrypt_history()
+    public function test_pages_ask_the_browser_to_encrypt_history(): void
     {
         $response = $this->actingAs(User::factory()->create())->get(route('profile.edit'));
 
-        $response->assertInertia(function (Assert $page) {
+        $response->assertInertia(function (Assert $page): Assert {
             $this->assertTrue($page->toArray()['encryptHistory'] ?? false);
 
             return $page;
         });
     }
 
-    public function test_the_page_after_logout_clears_browser_history()
+    public function test_the_page_after_logout_clears_browser_history(): void
     {
         $this->actingAs(User::factory()->create());
 
         $response = $this->followingRedirects()->post(route('logout'));
 
         $this->assertGuest();
-        $response->assertInertia(function (Assert $page) {
+        $response->assertInertia(function (Assert $page): Assert {
             $this->assertTrue($page->toArray()['clearHistory'] ?? false);
 
             return $page;

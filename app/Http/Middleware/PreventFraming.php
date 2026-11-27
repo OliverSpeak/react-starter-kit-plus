@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -12,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Sets the CSP frame-ancestors directive for current browsers and X-Frame-Options for older ones,
  * without replacing either header if something earlier already set it.
  */
-class PreventFraming
+final class PreventFraming
 {
     /**
      * Handle an incoming request.

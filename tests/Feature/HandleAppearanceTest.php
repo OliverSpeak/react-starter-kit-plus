@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use Tests\TestCase;
 
-class HandleAppearanceTest extends TestCase
+final class HandleAppearanceTest extends TestCase
 {
-    public function test_unknown_appearance_cookie_falls_back_to_system_without_reaching_the_inline_script()
+    public function test_unknown_appearance_cookie_falls_back_to_system_without_reaching_the_inline_script(): void
     {
         $response = $this->withUnencryptedCookie('appearance', "dark';alert(1);//")->get(route('login'));
 
@@ -15,7 +17,7 @@ class HandleAppearanceTest extends TestCase
         $response->assertDontSeeHtml('alert(1)');
     }
 
-    public function test_dark_appearance_cookie_renders_the_dark_page()
+    public function test_dark_appearance_cookie_renders_the_dark_page(): void
     {
         $response = $this->withUnencryptedCookie('appearance', 'dark')->get(route('login'));
 
