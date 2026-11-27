@@ -60,6 +60,8 @@ The `lang` directory has been scaffolded using Laravel's `lang:publish` Artisan 
 
 A `config/locale.php` file has been created to centralise locale settings, such as supported languages and the default language. Supported languages **implicitly** use the [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) format.
 
+To offer only some of the available languages, set `APP_LOCALES` to a comma-separated list (for example `APP_LOCALES=en` to launch in one language while keeping the other translations). The default locale is always included. With a single language, the language switcher hides and every request, including a saved user or cookie preference, uses that language.
+
 A new component `language-switcher.tsx` has been created to provide a user-facing interface to view and switch languages, accessible from the welcome and dashboard pages.
 
 Preferred locale persistence works using the priority chain: **authenticated user (database) > cookie > browser `Accept-Language` header > app default**. When an authenticated user changes their locale, this is updated in both the database and the new `locale` cookie.

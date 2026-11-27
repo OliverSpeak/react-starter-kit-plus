@@ -15,6 +15,15 @@ import { useTranslation } from '@/lib/use-translations';
 import { cn } from '@/lib/utils';
 import { update } from '@/routes/locale';
 
+/**
+ * Whether more than one language is offered, so the switcher has something to show.
+ */
+export function useHasLanguageChoice(): boolean {
+    const { props } = usePage();
+
+    return Object.keys(props.supportedLocales || {}).length > 1;
+}
+
 interface LanguageSwitcherProps {
     children?: ReactNode;
     className?: string;
@@ -28,6 +37,7 @@ export function LanguageSwitcher({
     const { props } = usePage();
     const currentLocale = props.currentLocale || 'en';
     const [open, setOpen] = useState(false);
+    const hasLanguageChoice = useHasLanguageChoice();
 
     const locales = useMemo(
         () => Object.entries(props.supportedLocales || {}),
@@ -64,6 +74,10 @@ export function LanguageSwitcher({
             </Button>
         );
     };
+
+    if (!hasLanguageChoice) {
+        return null;
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

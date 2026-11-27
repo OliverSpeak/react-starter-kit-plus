@@ -2,6 +2,32 @@
 
 declare(strict_types=1);
 
+/*
+|--------------------------------------------------------------------------
+| Available Locales
+|--------------------------------------------------------------------------
+|
+| Every locale the application has translations for. Each locale must have
+| corresponding translation files in the lang/ directory.
+|
+| The 'name' key is the English name of the locale, and 'native' is the
+| native name (useful for displaying in UI).
+|
+*/
+
+$available = [
+    'en' => [
+        'name' => 'English',
+        'native' => 'English',
+    ],
+    'ja' => [
+        'name' => 'Japanese',
+        'native' => '日本語',
+    ],
+];
+
+$enabled = array_filter(array_map(trim(...), explode(',', (string) env('APP_LOCALES', ''))));
+
 return [
 
     /*
@@ -9,24 +35,17 @@ return [
     | Supported Locales
     |--------------------------------------------------------------------------
     |
-    | This array contains all locales that your application supports. Each
-    | locale must have corresponding translation files in the lang/ directory.
-    |
-    | The 'name' key is the English name of the locale, and 'native' is the
-    | native name (useful for displaying in UI).
+    | The locales visitors can use. APP_LOCALES is a comma-separated list of
+    | available locales to offer (for example "en" to launch in one language
+    | while keeping the other translations). Empty offers every available
+    | locale. The default locale is always included. With a single locale,
+    | the language switcher hides and every request uses it.
     |
     */
 
-    'supported' => [
-        'en' => [
-            'name' => 'English',
-            'native' => 'English',
-        ],
-        'ja' => [
-            'name' => 'Japanese',
-            'native' => '日本語',
-        ],
-    ],
+    'supported' => $enabled === []
+        ? $available
+        : array_intersect_key($available, array_flip([...$enabled, (string) env('APP_LOCALE', 'en')])),
 
     /*
     |--------------------------------------------------------------------------
