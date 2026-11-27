@@ -75,11 +75,7 @@ export function initializeTheme(): void {
         return;
     }
 
-    if (!localStorage.getItem('appearance')) {
-        localStorage.setItem('appearance', 'system');
-        setCookie('appearance', 'system');
-    }
-
+    // Store nothing until the visitor picks a theme; until then it follows the system.
     currentAppearance = getStoredAppearance();
     applyTheme(currentAppearance);
 
