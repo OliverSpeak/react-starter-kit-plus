@@ -1,8 +1,6 @@
 import { Form, Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-/* @chisel-email-verification */
 import { Link } from '@inertiajs/react';
-/* @end-chisel-email-verification */
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
@@ -13,25 +11,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import type { Auth } from '@/types';
-/* @chisel-email-verification */
 import { send } from '@/routes/verification';
-/* @end-chisel-email-verification */
 
 type PageProps = {
     auth: Auth;
 };
 
-export default function Profile(
-    /* @chisel-email-verification */
-    {
-        mustVerifyEmail,
-        status,
-    }: {
-        mustVerifyEmail: boolean;
-        status?: string;
-    },
-    /* @end-chisel-email-verification */
-) {
+export default function Profile({
+    mustVerifyEmail,
+    status,
+}: {
+    mustVerifyEmail: boolean;
+    status?: string;
+}) {
     const { auth } = usePage<PageProps>().props;
     const [email, setEmail] = useState(auth.user.email);
 
@@ -127,7 +119,6 @@ export default function Profile(
                                 </div>
                             )}
 
-                            {/* @chisel-email-verification */}
                             {mustVerifyEmail &&
                                 auth.user.email_verified_at === null && (
                                     <div>
@@ -152,7 +143,6 @@ export default function Profile(
                                         )}
                                     </div>
                                 )}
-                            {/* @end-chisel-email-verification */}
 
                             <div className="flex items-center gap-4">
                                 <Button

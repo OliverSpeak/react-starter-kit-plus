@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Settings;
 
 use App\Models\User;
 use App\Notifications\EmailAddressChanged;
-/* @chisel-email-verification */
 use Illuminate\Auth\Notifications\VerifyEmail;
-/* @end-chisel-email-verification */
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
@@ -14,7 +14,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class ProfileUpdateTest extends TestCase
+final class ProfileUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -29,7 +29,7 @@ class ProfileUpdateTest extends TestCase
         ];
     }
 
-    public function test_profile_page_is_displayed()
+    public function test_profile_page_is_displayed(): void
     {
         $user = User::factory()->create();
 
@@ -40,7 +40,7 @@ class ProfileUpdateTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_profile_information_can_be_updated()
+    public function test_profile_information_can_be_updated(): void
     {
         $user = User::factory()->create();
 
@@ -63,7 +63,7 @@ class ProfileUpdateTest extends TestCase
         $this->assertNull($user->email_verified_at);
     }
 
-    public function test_email_is_stored_in_lowercase_so_the_user_can_still_log_in()
+    public function test_email_is_stored_in_lowercase_so_the_user_can_still_log_in(): void
     {
         $user = User::factory()->create();
 
@@ -88,7 +88,7 @@ class ProfileUpdateTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function test_email_must_be_unique_regardless_of_case()
+    public function test_email_must_be_unique_regardless_of_case(): void
     {
         User::factory()->create(['email' => 'taken@example.com']);
 
@@ -107,7 +107,7 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('profile.edit'));
     }
 
-    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged()
+    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
         Notification::fake();
         $user = User::factory()->create();
@@ -131,7 +131,7 @@ class ProfileUpdateTest extends TestCase
      * @param  array<string, string>  $passwordInput
      */
     #[DataProvider('missingOrWrongCurrentPassword')]
-    public function test_email_change_is_rejected_without_the_current_password(array $passwordInput)
+    public function test_email_change_is_rejected_without_the_current_password(array $passwordInput): void
     {
         Notification::fake();
         $user = User::factory()->create(['email' => 'owner@example.com']);
@@ -154,7 +154,7 @@ class ProfileUpdateTest extends TestCase
         Notification::assertNothingSent();
     }
 
-    public function test_email_change_notifies_the_previous_address()
+    public function test_email_change_notifies_the_previous_address(): void
     {
         Notification::fake();
         $user = User::factory()->create(['email' => 'owner@example.com']);
@@ -172,12 +172,10 @@ class ProfileUpdateTest extends TestCase
             EmailAddressChanged::class,
             fn (EmailAddressChanged $notification, array $channels, AnonymousNotifiable $notifiable): bool => $notifiable->routes['mail'] === 'owner@example.com',
         );
-        /* @chisel-email-verification */
         Notification::assertSentTo($user, VerifyEmail::class);
-        /* @end-chisel-email-verification */
     }
 
-    public function test_user_can_delete_their_account()
+    public function test_user_can_delete_their_account(): void
     {
         $user = User::factory()->create();
 
@@ -195,7 +193,7 @@ class ProfileUpdateTest extends TestCase
         $this->assertNull($user->fresh());
     }
 
-    public function test_correct_password_must_be_provided_to_delete_account()
+    public function test_correct_password_must_be_provided_to_delete_account(): void
     {
         $user = User::factory()->create();
 
@@ -213,7 +211,7 @@ class ProfileUpdateTest extends TestCase
         $this->assertNotNull($user->fresh());
     }
 
-    public function test_the_page_after_deleting_an_account_clears_browser_history()
+    public function test_the_page_after_deleting_an_account_clears_browser_history(): void
     {
         $user = User::factory()->create();
 
@@ -222,7 +220,7 @@ class ProfileUpdateTest extends TestCase
             ->delete(route('profile.destroy'), ['password' => 'password']);
 
         $this->assertGuest();
-        $response->assertInertia(function (Assert $page) {
+        $response->assertInertia(function (Assert $page): Assert {
             $this->assertTrue($page->toArray()['clearHistory'] ?? false);
 
             return $page;

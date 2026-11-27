@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
 
-class PasswordResetTest extends TestCase
+final class PasswordResetTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,14 +23,14 @@ class PasswordResetTest extends TestCase
         $this->skipUnlessFortifyHas(Features::resetPasswords());
     }
 
-    public function test_reset_password_link_screen_can_be_rendered()
+    public function test_reset_password_link_screen_can_be_rendered(): void
     {
         $response = $this->get(route('password.request'));
 
         $response->assertOk();
     }
 
-    public function test_reset_password_link_can_be_requested()
+    public function test_reset_password_link_can_be_requested(): void
     {
         Notification::fake();
 
@@ -39,7 +41,7 @@ class PasswordResetTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
-    public function test_reset_password_screen_can_be_rendered()
+    public function test_reset_password_screen_can_be_rendered(): void
     {
         Notification::fake();
 
@@ -47,7 +49,7 @@ class PasswordResetTest extends TestCase
 
         $this->post(route('password.email'), ['email' => $user->email]);
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
+        Notification::assertSentTo($user, ResetPassword::class, function ($notification): true {
             $response = $this->get(route('password.reset', $notification->token));
 
             $response->assertOk();
@@ -56,7 +58,7 @@ class PasswordResetTest extends TestCase
         });
     }
 
-    public function test_password_can_be_reset_with_valid_token()
+    public function test_password_can_be_reset_with_valid_token(): void
     {
         Notification::fake();
 
@@ -64,7 +66,7 @@ class PasswordResetTest extends TestCase
 
         $this->post(route('password.email'), ['email' => $user->email]);
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
+        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user): true {
             $response = $this->post(route('password.update'), [
                 'token' => $notification->token,
                 'email' => $user->email,
@@ -94,7 +96,7 @@ class PasswordResetTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    public function test_untrusted_host_is_refused_outside_local()
+    public function test_untrusted_host_is_refused_outside_local(): void
     {
         $this->app['env'] = 'production';
 
@@ -108,7 +110,7 @@ class PasswordResetTest extends TestCase
         $response->assertBadRequest();
     }
 
-    public function test_app_url_host_is_served_outside_local()
+    public function test_app_url_host_is_served_outside_local(): void
     {
         $this->app['env'] = 'production';
 

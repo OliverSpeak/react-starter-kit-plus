@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
@@ -8,7 +10,7 @@ use Illuminate\Notifications\Notification;
 /**
  * Tells the previous address that the account's email changed, so an owner whose session was misused can react.
  */
-class EmailAddressChanged extends Notification
+final class EmailAddressChanged extends Notification
 {
     /**
      * Get the notification's delivery channels.

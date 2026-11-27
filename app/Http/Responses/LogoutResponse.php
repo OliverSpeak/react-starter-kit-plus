@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Responses;
 
 use Illuminate\Http\Request;
@@ -12,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  * the signed-out account's pages. The flag is set after Fortify invalidated the session, so it survives into the
  * redirected page.
  */
-class LogoutResponse extends FortifyLogoutResponse
+final class LogoutResponse extends FortifyLogoutResponse
 {
     /**
      * @param  Request  $request
